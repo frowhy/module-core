@@ -37,6 +37,6 @@ class $CLASS$Eloquent extends BaseRepository implements $CLASS$
      */
     public function boot()
     {
-        $this->pushCriteria(app('Prettus\\Repository\\Criteria\\RequestCriteria'));
+        $this->pushCriteria(app('Modules\\Core\\Criteria\\RequestCriteria'));
     }
 }
