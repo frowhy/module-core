@@ -2,9 +2,11 @@
 
 namespace Modules\Core\Console;
 
-use File;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
-use Illuminate\Support\Str;
+use Illuminate\Support\{
+    Facades\File,
+    Str
+};
 use Nwidart\Modules\Commands\GeneratorCommand;
 use Nwidart\Modules\Exceptions\FileAlreadyExistException;
 use Nwidart\Modules\Generators\FileGenerator;
@@ -181,8 +183,8 @@ class RepositoryMakeCommand extends GeneratorCommand
      */
     private function getModelName()
     {
-        return $this->option('model')
-            ?: Str::before(class_basename($this->argument($this->argumentName)), 'Repository');
+        return (string) $this->option('model')
+            ?: Str::before(class_basename((string) $this->argument($this->argumentName)), 'Repository');
     }
 
     /**
@@ -203,7 +205,7 @@ class RepositoryMakeCommand extends GeneratorCommand
      */
     private function getFileName()
     {
-        return Str::studly($this->argument('name'));
+        return Str::studly((string) $this->argument('name'));
     }
 
     /**

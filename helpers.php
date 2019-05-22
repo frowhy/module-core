@@ -10,7 +10,6 @@ use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use Modules\Core\Supports\Response;
 
 /**
  * 生成验证码
@@ -34,7 +33,7 @@ if (!function_exists('relative_url')) {
     {
         return $url === null
             ? $url
-            : (false === Str::start($url, 'http://') ? (false === Str::start($url, 'https://')
+            : (false === Str::startsWith($url, 'http://') ? (false === Str::startsWith($url, 'https://')
                 ? $url : Str::replaceFirst('https://', '//', $url)) : Str::replaceFirst('http://', '//', $url));
     }
 }
@@ -45,7 +44,7 @@ if (!function_exists('relative_url')) {
 if (!function_exists('storage_url')) {
     function storage_url(?string $url = null): ?string
     {
-        return $url === null ? $url : (starts_with($url, 'http') ? $url : Storage::url($url));
+        return $url === null ? $url : (Str::startsWith($url, 'http') ? $url : Storage::url($url));
     }
 }
 
@@ -302,7 +301,7 @@ if (!function_exists('is_mini_program')) {
 if (!function_exists('get_data')) {
     function get_data($data, $index = null, $key = null)
     {
-        if ($data instanceof Collection || $data instanceof Response) {
+        if ($data instanceof Collection || $data instanceof Modules\Core\Supports\Response) {
             $data = $data->toArray();
         }
 
@@ -349,12 +348,6 @@ if (!function_exists('get_data')) {
 if (!function_exists('clear_cache')) {
     function clear_cache(): void
     {
-        if (config('cache.opcache_enabled')) {
-            $opcache = app('Appstract\Opcache\OpcacheFacade');
-            if (false !== $opcache::getStatus()) {
-                $opcache::clear();
-            }
-        }
         Cache::tags('website')->flush();
     }
 }
@@ -460,7 +453,7 @@ if (!function_exists('random_alphabet_lower')) {
 if (!function_exists('random_date')) {
     function random_date(): string
     {
-        return mt_rand(2000, date('Y')).sprintf("%02d", mt_rand(1, 12)).sprintf("%02d", mt_rand(1, 28));
+        return (string) mt_rand(2000, (int) date('Y')).sprintf("%02d", mt_rand(1, 12)).sprintf("%02d", mt_rand(1, 28));
     }
 }
 

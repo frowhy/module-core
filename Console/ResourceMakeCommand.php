@@ -70,7 +70,7 @@ class ResourceMakeCommand extends BaseResourceMakeCommand
      */
     private function getModelName()
     {
-        return $this->option('model')
-            ?: Str::before(class_basename($this->argument($this->argumentName)), 'Transformer');
+        return (string) $this->option('model')
+            ?: Str::before(class_basename((string) $this->argument($this->argumentName)), 'Transformer');
     }
 }

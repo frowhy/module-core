@@ -2,6 +2,7 @@
 
 namespace Modules\Core\Providers;
 
+
 use Illuminate\Support\ServiceProvider;
 use Modules\Core\Contracts\Repository\Filter;
 

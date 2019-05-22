@@ -123,7 +123,7 @@ class Response implements Responsable, Arrayable, Renderable, Boolable
         return Str::startsWith(Arr::get($this->response, 'meta.status_code'), 2);
     }
 
-    public static function param(string $param): ?string
+    public static function param(string $param)
     {
         $request = app('Illuminate\Http\Request');
         if ($request->has($param)) {
@@ -172,8 +172,8 @@ class Response implements Responsable, Arrayable, Renderable, Boolable
                 $_data = $data;
             }
         }
-        if ((is_array($data) && array_has($data, 'meta'))) {
-            $_meta = array_get($data, 'meta');
+        if ((is_array($data) && Arr::has($data, 'meta'))) {
+            $_meta = Arr::get($data, 'meta');
         } else {
             $_meta = [];
         }

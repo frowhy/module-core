@@ -10,7 +10,11 @@ class BaseEnum
 {
     protected const __ = [];
 
-    public static function __(int $enum): string
+    /**
+     * @param int $enum
+     * @return array|string|null
+     */
+    public static function __(int $enum)
     {
         $callClass = get_called_class();
         $module = strtolower(Str::before(Str::after($callClass, 'Modules\\'), '\\'));

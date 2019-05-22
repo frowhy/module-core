@@ -39,6 +39,7 @@ class Handler extends ExceptionHandler
     {
         if ($request->is('api/*') || $request->wantsJson()) {
             if ('web' !== config('core.api.error_format')) {
+                $response = [];
                 if ($exception instanceof UnauthorizedHttpException) {
                     $exception = method_exists($exception, 'getPrevious') ? $exception->getPrevious() : $exception;
                 }
