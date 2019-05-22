@@ -37,7 +37,7 @@ class $CLASS$ extends BaseServiceProvider
     {
         $this->app->register(RouteServiceProvider::class);
         $this->app->register(ControllerServiceProvider::class);
-        $this->app->register(ServiceProvider::class);
+        $this->app->register(ServiceServiceProvider::class);
         $this->app->register(RepositoryServiceProvider::class);
     }
 
