@@ -1,4 +1,11 @@
-## 核心模块
+# 核心模块
+
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/frowhy/module-core.svg?style=flat-square)](https://packagist.org/packages/frowhy/module-core)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
+[![Build Status](https://scrutinizer-ci.com/g/frowhy/module-core/badges/build.png?b=develop)](https://scrutinizer-ci.com/g/frowhy/module-core/build-status/develop)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/frowhy/module-core/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/frowhy/module-core/?branch=develop)
+[![Code Intelligence Status](https://scrutinizer-ci.com/g/frowhy/module-core/badges/code-intelligence.svg?b=develop)](https://scrutinizer-ci.com/code-intelligence)
+[![Total Downloads](https://img.shields.io/packagist/dt/frowhy/module-core.svg?style=flat-square)](https://packagist.org/packages/frowhy/module-core)
 
 * 模块名称：Core
 * 项目代号：core
