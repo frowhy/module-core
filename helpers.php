@@ -301,25 +301,39 @@ if (!function_exists('is_mini_program')) {
 if (!function_exists('get_data')) {
     function get_data($data, $index = null, $key = null)
     {
-        if ($data instanceof Collection || $data instanceof Modules\Core\Supports\Response) {
+        if (method_exists($data, 'toArray')) {
             $data = $data->toArray();
         }
 
-        $field = Arr::has($data, 'data') ? 'data.' : '';
+        $field = condition(Arr::has($data, 'data'), 'data.', '');
 
         if (Arr::has($data, "{$field}0") && !Arr::has($data, "{$field}1")) {
             if (!is_null($index) && is_int($index)) {
                 $key = "{$index}.{$key}";
             } else {
-                $key = is_null($index) ? 0 : "0.{$index}";
+                $key = condition(is_null($index), 0, "0.{$index}");
             }
         } else {
-            $key = is_null($index) ? '' : $index;
+            $key = condition(is_null($index), '', $index);
         }
 
         $key = rtrim("{$field}{$key}", '.');
 
-        return $key ? Arr::get($data, $key) : $data;
+        return condition($key, Arr::get($data, $key), $data);
+    }
+}
+
+/**
+ * 三元运算
+ */
+if (!function_exists('condition')) {
+    function condition($condition, $true, $false)
+    {
+        if ($condition) {
+            return $true;
+        } else {
+            return $false;
+        }
     }
 }
 
