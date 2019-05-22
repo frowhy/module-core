@@ -115,7 +115,7 @@ class CoreServiceProvider extends ServiceProvider
      */
     public function registerFactories()
     {
-        if (!app()->environment('production')) {
+        if (!app()->/** @scrutinizer ignore-call */ environment('production')) {
             app(Factory::class)->load(__DIR__.'/../Database/factories');
         }
     }
@@ -137,7 +137,9 @@ class CoreServiceProvider extends ServiceProvider
 
     public function registerObservers()
     {
-        Event::listen(RepositoryEventBase::class, function (RepositoryEventBase $repositoryEntityCreated) {
+        Event::/** @scrutinizer ignore-call */ listen(RepositoryEventBase::class, function (
+            RepositoryEventBase $repositoryEntityCreated
+        ) {
             $model = $repositoryEntityCreated->getModel();
             $method = $repositoryEntityCreated->getAction();
             $class = get_class($model);
