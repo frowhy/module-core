@@ -2,15 +2,16 @@
 
 namespace Modules\Core\Providers;
 
+
 use Carbon\Carbon;
-use Config;
-use Event;
-use Illuminate\Support\ServiceProvider as BaseServiceProvider;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Database\Eloquent\Factory;
+use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Prettus\Repository\Events\RepositoryEventBase;
 
-class CoreServiceProvider extends BaseServiceProvider
+class CoreServiceProvider extends ServiceProvider
 {
     /**
      * Indicates if loading of the provider is deferred.
@@ -34,6 +35,7 @@ class CoreServiceProvider extends BaseServiceProvider
         $this->registerObservers();
         $this->registerTelescope();
         $this->loadMigrationsFrom(__DIR__.'/../Database/Migrations');
+        $this->publish();
     }
 
     /**
@@ -45,10 +47,14 @@ class CoreServiceProvider extends BaseServiceProvider
     {
         $this->app->register(RouteServiceProvider::class);
         $this->app->register(ControllerServiceProvider::class);
-        $this->app->register(ServiceProvider::class);
+        $this->app->register(ServiceServiceProvider::class);
         $this->app->register(RepositoryServiceProvider::class);
 
         $this->app->register(RepositoryFilterContainerProvider::class);
+
+        $this->mergeConfigFrom(
+            dirname(__DIR__).'/config.php', 'modules'
+        );
     }
 
     /**
@@ -150,5 +156,12 @@ class CoreServiceProvider extends BaseServiceProvider
         if ($this->app->isLocal() && class_exists('Laravel\\Telescope\\TelescopeApplicationServiceProvider')) {
             $this->app->register(TelescopeServiceProvider::class);
         }
+    }
+
+    public function publish()
+    {
+        $this->publishes([
+            dirname(__DIR__).'/config.php' => config_path('module.php'),
+        ], 'modular-config');
     }
 }
