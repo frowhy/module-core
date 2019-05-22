@@ -37,33 +37,18 @@ abstract class TransformerAbstract extends BaseTransformerAbstract
     {
         $class = class_basename($this->transform);
         $param = Response::param('requested_fields') ?? $this->filter->requestedFields[$class];
+
         if (!is_null($param)) {
+
             if (is_array($param)) {
                 $requestedFields = $param;
             } else {
                 $requestedFields = explode(',', $param);
             }
 
-            if ($requestedFields) {
-
-                foreach ($requestedFields as $requestedField) {
-
-                    if ($this instanceof TransformerAbstract) {
-
-                        $scope = null;
-
-                        if (Str::contains($requestedField, '.')) {
-                            $requestedFieldArray = explode('.', $requestedField);
-                            $length = count($requestedFieldArray);
-                            $requestedField = Arr::last($requestedFieldArray);
-                            Arr::forget($requestedFieldArray, $length - 1);
-                            $scope = implode('.', $requestedFieldArray);
-                        }
-
-                        if ($scope === $this->getCurrentScope()->getIdentifier()) {
-                            $this->field = Arr::only($this->field, $requestedField);
-                        }
-                    }
+            foreach ($requestedFields as $requestedField) {
+                if ($this instanceof TransformerAbstract) {
+                    $this->field = Arr::only($this->field, $this->getFilterField($requestedField));
                 }
             }
         }
@@ -75,36 +60,38 @@ abstract class TransformerAbstract extends BaseTransformerAbstract
         $param = Response::param('exclude_fields') ?? $this->filter->excludeFields[$class];
 
         if (!is_null($param)) {
+
             if (is_array($param)) {
                 $excludeFields = $param;
             } else {
                 $excludeFields = explode(',', $param);
             }
 
-            if ($excludeFields) {
-
-                foreach ($excludeFields as $excludeField) {
-
-                    if ($this instanceof TransformerAbstract) {
-
-                        $scope = null;
-
-                        if (Str::contains($excludeField, '.')) {
-                            $excludeFieldArray = explode('.', $excludeField);
-                            $length = count($excludeFieldArray);
-                            $excludeField = Arr::last($excludeFieldArray);
-                            Arr::forget($excludeFieldArray, $length - 1);
-                            $scope = implode('.', $excludeFieldArray);
-                        }
-
-                        if ($scope === $this->getCurrentScope()->getIdentifier()) {
-                            if (Arr::has($this->field, $excludeField)) {
-                                $this->field = Arr::except($this->field, $excludeField);
-                            }
-                        }
-                    }
+            foreach ($excludeFields as $excludeField) {
+                if ($this instanceof TransformerAbstract) {
+                    $this->field = Arr::except($this->field, $this->getFilterField($excludeField));
                 }
             }
+        }
+    }
+
+    protected function getFilterField(string $field): ?string
+    {
+        $scope = null;
+
+        if (Str::contains($field, '.')) {
+            $fieldArray = explode('.', $field);
+            $length = count($fieldArray);
+            $field = Arr::last($fieldArray);
+            Arr::forget($fieldArray, $length - 1);
+            $scope = implode('.', $fieldArray);
+
+        }
+
+        if ($scope === $this->getCurrentScope()->getIdentifier()) {
+            return $field;
+        } else {
+            return null;
         }
     }
 }

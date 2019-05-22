@@ -31,6 +31,28 @@ class Response implements Responsable, Arrayable, Renderable, Boolable
         return $this;
     }
 
+    private static function parseMeta($data)
+    {
+        if ((is_array($data) && Arr::has($data, 'meta'))) {
+            return Arr::get($data, 'meta');
+        } else {
+            return [];
+        }
+    }
+
+    private static function parseData($data)
+    {
+        if (is_array($data) && Arr::has($data, 'data')) {
+            return Arr::get($data, 'data');
+        } else {
+            if (is_string($data) && json_decode($data)) {
+                return json_decode($data);
+            } else {
+                return $data;
+            }
+        }
+    }
+
     /**
      * 格式化响应
      *
@@ -159,27 +181,25 @@ class Response implements Responsable, Arrayable, Renderable, Boolable
      * @param string|null $message
      * @return \Modules\Core\Supports\Response
      */
-    public static function handle(int $statusCode, $data = null, bool $overwrite = false, string $message = null): Response
-    {
+    public static function handle(
+        int $statusCode,
+        $data = null,
+        bool $overwrite = false,
+        string $message = null
+    ): Response {
         if (($overwrite && is_array($data))) {
             $_data = $data;
-        } elseif (is_array($data) && Arr::has($data, 'data')) {
-            $_data = Arr::get($data, 'data');
         } else {
-            if (is_string($data) && json_decode($data)) {
-                $_data = json_decode($data);
-            } else {
-                $_data = $data;
-            }
+            $_data = self::parseData($data);
         }
-        if ((is_array($data) && Arr::has($data, 'meta'))) {
-            $_meta = Arr::get($data, 'meta');
-        } else {
-            $_meta = [];
-        }
+
+        $_meta = self::parseMeta($data);
+
         $_meta = Arr::prepend($_meta, $statusCode, 'status_code');
         $_meta = Arr::prepend($_meta, $message ?? StatusCodeEnum::__($statusCode), 'message');
+
         Arr::set($response, 'meta', $_meta);
+
         if (!is_null($_data)) {
             Arr::set($response, 'data', $_data);
         }
@@ -299,8 +319,11 @@ class Response implements Responsable, Arrayable, Renderable, Boolable
      * @param string|null $message
      * @return \Modules\Core\Supports\Response
      */
-    public static function handlePaymentRequired($data = null, bool $overwrite = false, string $message = null): Response
-    {
+    public static function handlePaymentRequired(
+        $data = null,
+        bool $overwrite = false,
+        string $message = null
+    ): Response {
         return self::handle(StatusCodeEnum::HTTP_PAYMENT_REQUIRED, $data, $overwrite, $message);
     }
 
@@ -338,8 +361,11 @@ class Response implements Responsable, Arrayable, Renderable, Boolable
      * @param string|null $message
      * @return \Modules\Core\Supports\Response
      */
-    public static function handleUnprocessableEntity($data = null, bool $overwrite = false, string $message = null): Response
-    {
+    public static function handleUnprocessableEntity(
+        $data = null,
+        bool $overwrite = false,
+        string $message = null
+    ): Response {
         return self::handle(StatusCodeEnum::HTTP_UNPROCESSABLE_ENTITY, $data, $overwrite, $message);
     }
 
@@ -364,8 +390,11 @@ class Response implements Responsable, Arrayable, Renderable, Boolable
      * @param string|null $message
      * @return \Modules\Core\Supports\Response
      */
-    public static function handleTooManyRequests($data = null, bool $overwrite = false, string $message = null): Response
-    {
+    public static function handleTooManyRequests(
+        $data = null,
+        bool $overwrite = false,
+        string $message = null
+    ): Response {
         return self::handle(StatusCodeEnum::HTTP_TOO_MANY_REQUESTS, $data, $overwrite, $message);
     }
 
@@ -377,8 +406,11 @@ class Response implements Responsable, Arrayable, Renderable, Boolable
      * @param string|null $message
      * @return \Modules\Core\Supports\Response
      */
-    public static function handleInternalServerError($data = null, bool $overwrite = false, string $message = null): Response
-    {
+    public static function handleInternalServerError(
+        $data = null,
+        bool $overwrite = false,
+        string $message = null
+    ): Response {
         return self::handle(StatusCodeEnum::HTTP_INTERNAL_SERVER_ERROR, $data, $overwrite, $message);
     }
 

@@ -40,50 +40,66 @@ class Handler extends ExceptionHandler
         if ($request->is('api/*') || $request->wantsJson()) {
             if ('web' !== config('core.api.error_format')) {
                 $response = [];
-                if ($exception instanceof UnauthorizedHttpException) {
-                    $exception = method_exists($exception, 'getPrevious') ? $exception->getPrevious() : $exception;
-                }
+                $exceptionClass = get_class($exception);
+                $exception = $this->overwrite($exception);
+
                 if ($exception instanceof ModelNotFoundException) {
                     $response['meta'][self::STATUS_CODE] = StatusCodeEnum::HTTP_NOT_FOUND;
                     $response['meta'][self::MESSAGE] = $exception->getMessage();
                 } elseif ($exception instanceof JWTException) {
-                    if ($exception instanceof InvalidClaimException) {
-                        $response['meta'][self::ERROR_CODE] = JWTErrorCode::INVALID_CLAIM;
-                    } elseif ($exception instanceof PayloadException) {
-                        $response['meta'][self::ERROR_CODE] = JWTErrorCode::PAYLOAD;
-                    } elseif ($exception instanceof TokenBlacklistedException) {
-                        $response['meta'][self::ERROR_CODE] = JWTErrorCode::TOKEN_BLACKLISTED;
-                    } elseif ($exception instanceof TokenExpiredException) {
-                        if ('Token has expired and can no longer be refreshed' === $exception->getMessage()) {
-                            $response['meta'][self::ERROR_CODE] = JWTErrorCode::CAN_NOT_REFRESHED;
-                        } else {
-                            $response['meta'][self::ERROR_CODE] = JWTErrorCode::TOKEN_EXPIRED;
-                        }
-                    } elseif ($exception instanceof TokenInvalidException) {
-                        $response['meta'][self::ERROR_CODE] = JWTErrorCode::TOKEN_INVALID;
-                    } elseif ($exception instanceof UserNotDefinedException) {
-                        $response['meta'][self::ERROR_CODE] = JWTErrorCode::USER_NOT_DEFINED;
-                    } else {
-                        $response['meta'][self::ERROR_CODE] = JWTErrorCode::DEFAULT;;
+                    switch ($exceptionClass) {
+                        case InvalidClaimException::class:
+                            $response['meta'][self::ERROR_CODE] = JWTErrorCode::INVALID_CLAIM;
+                            break;
+
+                        case PayloadException::class:
+                            $response['meta'][self::ERROR_CODE] = JWTErrorCode::PAYLOAD;
+                            break;
+
+                        case TokenBlacklistedException::class:
+                            $response['meta'][self::ERROR_CODE] = JWTErrorCode::TOKEN_BLACKLISTED;
+                            break;
+
+                        case TokenExpiredException::class:
+                            if ('Token has expired and can no longer be refreshed' === $exception->getMessage()) {
+                                $response['meta'][self::ERROR_CODE] = JWTErrorCode::CAN_NOT_REFRESHED;
+                            } else {
+                                $response['meta'][self::ERROR_CODE] = JWTErrorCode::TOKEN_EXPIRED;
+                            }
+                            break;
+
+                        case TokenInvalidException::class:
+                            $response['meta'][self::ERROR_CODE] = JWTErrorCode::TOKEN_INVALID;
+                            break;
+
+                        case UserNotDefinedException::class:
+                            $response['meta'][self::ERROR_CODE] = JWTErrorCode::USER_NOT_DEFINED;
+                            break;
+
+                        default:
+                            $response['meta'][self::ERROR_CODE] = JWTErrorCode::DEFAULT;;
                     }
                     $response['meta'][self::STATUS_CODE] = StatusCodeEnum::HTTP_UNAUTHORIZED;
                     $response['meta'][self::MESSAGE] = $exception->getMessage();
                 } else {
-                    $response['meta'][self::STATUS_CODE] =
-                        method_exists($exception, 'getStatusCode') ? $exception->getStatusCode()
-                            : StatusCodeEnum::HTTP_INTERNAL_SERVER_ERROR;
-                    if ($exception->getCode()) {
+                    if (method_exists($exception, 'getStatusCode')) {
+                        $response['meta'][self::STATUS_CODE] = $exception->getStatusCode();
+                    } else {
+                        $response['meta'][self::STATUS_CODE] = StatusCodeEnum::HTTP_INTERNAL_SERVER_ERROR;
+                    }
+
+                    if (method_exists($exception, 'getCode')) {
                         $response['meta'][self::ERROR_CODE] = $exception->getCode();
                     }
-                    $response['meta'][self::MESSAGE] =
-                        null === $exception->getMessage() ? class_basename(get_class($exception))
-                            : $exception->getMessage();
+
+                    if (null === $exception->getMessage()) {
+                        $response['meta'][self::MESSAGE] = class_basename($exceptionClass);
+                    } else {
+                        $response['meta'][self::MESSAGE] = $exception->getMessage();
+                    }
                 }
-                if (true === config('app.debug')) {
-                    $response['meta'][self::DEBUG]['file'] = $exception->getFile();
-                    $response['meta'][self::DEBUG]['line'] = $exception->getLine();
-                    $response['meta'][self::DEBUG]['trace'] = $exception->getTrace();
-                }
+
+                $response = $this->debug($response, $exception);
 
                 return $this->response(collect($response)->toArray());
             }
@@ -95,5 +111,25 @@ class Handler extends ExceptionHandler
     protected function response(array $response)
     {
         return (new Response($response))->render();
+    }
+
+    protected function debug(array $response, Exception $exception)
+    {
+        if (true === config('app.debug')) {
+            $response['meta'][self::DEBUG]['file'] = $exception->getFile();
+            $response['meta'][self::DEBUG]['line'] = $exception->getLine();
+            $response['meta'][self::DEBUG]['trace'] = $exception->getTrace();
+        }
+
+        return $response;
+    }
+
+    protected function overwrite(Exception $exception)
+    {
+        if ($exception instanceof UnauthorizedHttpException && method_exists($exception, 'getPrevious')) {
+            $exception = $exception->getPrevious();
+        }
+
+        return $exception;
     }
 }
