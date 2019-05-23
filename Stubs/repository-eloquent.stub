@@ -28,13 +28,4 @@ class $CLASS$Eloquent extends BaseRepository implements $CLASS$
     {
         return $MODEL$Presenter::class;
     }
-
-    /**
-     * Boot up the repository, pushing criteria
-     *
-     */
-    public function boot()
-    {
-        $this->pushCriteria(app('Modules\\Core\\Criteria\\RequestCriteria'));
-    }
 }
