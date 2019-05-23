@@ -50,10 +50,6 @@ class CoreServiceProvider extends ServiceProvider
         $this->app->register(RepositoryServiceProvider::class);
 
         $this->app->register(RepositoryFilterContainerProvider::class);
-
-        $this->mergeConfigFrom(
-            dirname(__DIR__).'/config.php', 'modules'
-        );
     }
 
     /**
