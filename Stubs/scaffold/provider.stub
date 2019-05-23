@@ -99,7 +99,7 @@ class $CLASS$ extends BaseServiceProvider
      */
     public function registerFactories()
     {
-        if (!app()->environment('production')) {
+        if (!$this->app->environment('production')) {
             app(Factory::class)->load(__DIR__.'/../$FACTORIES_PATH$');
         }
     }
