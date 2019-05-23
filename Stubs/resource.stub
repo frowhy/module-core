@@ -25,8 +25,8 @@ class $CLASS$ extends TransformerAbstract
 
             /* place your other model properties here */
 
-            'created_at' => $attribute->createdAt,
-            'updated_at' => $attribute->updatedAt
+            'created_at' => (string) $attribute->createdAt,
+            'updated_at' => (string) $attribute->updatedAt
         ];
     }
 }
