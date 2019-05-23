@@ -4,7 +4,8 @@ namespace Modules\Core\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use JWTAuth;
+use Illuminate\Support\Arr;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use Modules\Core\Supports\Response;
 
 class CheckScopes
@@ -12,8 +13,8 @@ class CheckScopes
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Closure $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure $next
      * @param array $scopes
      * @return mixed
      */
@@ -22,8 +23,8 @@ class CheckScopes
         $canScopes = data_get(JWTAuth::user()->getJWTCustomClaims(), 'scopes');
 
         foreach ($scopes as $scope) {
-            if (!array_has($canScopes, $scope)) {
-                return Response::errorForbidden();
+            if (!Arr::has($canScopes, $scope)) {
+                return Response::handleForbidden();
             }
         }
 

@@ -3,9 +3,8 @@
 namespace Modules\Core\Http\Controllers;
 
 use Illuminate\Routing\Controller;
-use Module;
-use Modules\Core\Enums\StatusCodeEnum;
 use Modules\Core\Supports\Response;
+use Nwidart\Modules\Facades\Module;
 
 class CoreController extends Controller
 {

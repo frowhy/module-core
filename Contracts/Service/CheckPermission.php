@@ -13,7 +13,7 @@ interface CheckPermission
     /**
      * 检查权限
      *
-     * @param \App\User $user
+     * @param \Illuminate\Foundation\Auth\User $user
      * @param int $id
      *
      * @return mixed

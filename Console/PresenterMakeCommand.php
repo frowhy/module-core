@@ -93,8 +93,8 @@ class PresenterMakeCommand extends GeneratorCommand
      */
     private function getResourceName()
     {
-        return $this->option('resource')
-            ?: Str::before(class_basename($this->argument($this->argumentName)), 'Presenter').'Transformer';
+        return (string) $this->option('resource')
+            ?: Str::before(class_basename((string) $this->argument($this->argumentName)), 'Presenter').'Transformer';
     }
 
     /**
@@ -116,6 +116,6 @@ class PresenterMakeCommand extends GeneratorCommand
      */
     private function getFileName()
     {
-        return Str::studly($this->argument('name'));
+        return Str::studly((string) $this->argument('name'));
     }
 }

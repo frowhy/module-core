@@ -3,6 +3,7 @@
 namespace Modules\Core\Http\Middleware;
 
 use Closure;
+use Illuminate\Contracts\Auth\Guard as GuardContract;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\JWTAuth;
@@ -13,8 +14,8 @@ class RefreshToken extends BaseAuthenticate
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Closure $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure $next
      *
      * @param $guard
      * @return mixed
@@ -22,7 +23,9 @@ class RefreshToken extends BaseAuthenticate
     public function handle($request, Closure $next, $guard)
     {
         app()->singleton('tymon.jwt.auth', function () use ($guard) {
-            return new JWTAuth(app('tymon.jwt.manager'), new Illuminate(auth($guard)), app('tymon.jwt.parser'));
+            /** @var GuardContract $auth */
+            $auth = auth($guard);
+            return new JWTAuth(app('tymon.jwt.manager'), new Illuminate($auth), app('tymon.jwt.parser'));
         });
 
         $this->auth = app('tymon.jwt.auth');

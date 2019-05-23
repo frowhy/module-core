@@ -10,7 +10,6 @@ use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use Modules\Core\Supports\Response;
 
 /**
  * 生成验证码
@@ -34,7 +33,7 @@ if (!function_exists('relative_url')) {
     {
         return $url === null
             ? $url
-            : (false === Str::start($url, 'http://') ? (false === Str::start($url, 'https://')
+            : (false === Str::startsWith($url, 'http://') ? (false === Str::startsWith($url, 'https://')
                 ? $url : Str::replaceFirst('https://', '//', $url)) : Str::replaceFirst('http://', '//', $url));
     }
 }
@@ -45,7 +44,7 @@ if (!function_exists('relative_url')) {
 if (!function_exists('storage_url')) {
     function storage_url(?string $url = null): ?string
     {
-        return $url === null ? $url : (starts_with($url, 'http') ? $url : Storage::url($url));
+        return $url === null ? $url : (Str::startsWith($url, 'http') ? $url : Storage::url($url));
     }
 }
 
@@ -302,44 +301,39 @@ if (!function_exists('is_mini_program')) {
 if (!function_exists('get_data')) {
     function get_data($data, $index = null, $key = null)
     {
-        if ($data instanceof Collection || $data instanceof Response) {
+        if (method_exists($data, 'toArray')) {
             $data = $data->toArray();
         }
 
-        if (Arr::has($data, 'data')) {
-            $field = 'data.';
-        } else {
-            $field = '';
-        }
+        $field = condition(Arr::has($data, 'data'), 'data.', '');
 
         if (Arr::has($data, "{$field}0") && !Arr::has($data, "{$field}1")) {
             if (!is_null($index) && is_int($index)) {
                 $key = "{$index}.{$key}";
             } else {
-                if (!is_null($index)) {
-                    $key = "0.{$index}";
-                } else {
-                    $key = 0;
-                }
+                $key = condition(is_null($index), 0, "0.{$index}");
             }
         } else {
-            if (is_null($index)) {
-                $key = null;
-            } else {
-                $key = $index;
-            }
-        }
-        if ($key === null) {
-            $key = '';
+            $key = condition(is_null($index), '', $index);
         }
 
         $key = rtrim("{$field}{$key}", '.');
 
-        if ($key) {
-            return Arr::get($data, $key);
-        }
+        return condition($key, Arr::get($data, $key), $data);
+    }
+}
 
-        return $data;
+/**
+ * 三元运算
+ */
+if (!function_exists('condition')) {
+    function condition($condition, $true, $false)
+    {
+        if ($condition) {
+            return $true;
+        } else {
+            return $false;
+        }
     }
 }
 
@@ -349,12 +343,6 @@ if (!function_exists('get_data')) {
 if (!function_exists('clear_cache')) {
     function clear_cache(): void
     {
-        if (config('cache.opcache_enabled')) {
-            $opcache = app('Appstract\Opcache\OpcacheFacade');
-            if (false !== $opcache::getStatus()) {
-                $opcache::clear();
-            }
-        }
         Cache::tags('website')->flush();
     }
 }
@@ -460,7 +448,7 @@ if (!function_exists('random_alphabet_lower')) {
 if (!function_exists('random_date')) {
     function random_date(): string
     {
-        return mt_rand(2000, date('Y')).sprintf("%02d", mt_rand(1, 12)).sprintf("%02d", mt_rand(1, 28));
+        return (string) mt_rand(2000, (int) date('Y')).sprintf("%02d", mt_rand(1, 12)).sprintf("%02d", mt_rand(1, 28));
     }
 }
 
@@ -503,62 +491,6 @@ if (!function_exists('get_millisecond')) {
     {
         list($t1, $t2) = explode(' ', microtime());
         return (float) sprintf('%.0f', (floatval($t1) + floatval($t2)) * 1000);
-    }
-}
-
-/**
- * Ascii Code Encode
- *
- * @return float
- */
-if (!function_exists('ascii_encode')) {
-    function ascii_encode(string $string): ?string
-    {
-        $length = strlen($string);
-        $a = 0;
-        $ascii = null;
-        while ($a < $length) {
-            $ud = 0;
-            if (ord($string{$a}) >= 0 && ord($string{$a}) <= 127) {
-                $ud = ord($string{$a});
-                $a += 1;
-            } elseif (ord($string{$a}) >= 192 && ord($string{$a}) <= 223) {
-                $ud = (ord($string{$a}) - 192) * 64 + (ord($string{$a + 1}) - 128);
-                $a += 2;
-            } elseif (ord($string{$a}) >= 224 && ord($string{$a}) <= 239) {
-                $ud =
-                    (ord($string{$a}) - 224) * 4096 + (ord($string{$a + 1}) - 128) * 64 + (ord($string{$a + 2}) - 128);
-                $a += 3;
-            } elseif (ord($string{$a}) >= 240 && ord($string{$a}) <= 247) {
-                $ud =
-                    (ord($string{$a}) - 240) * 262144 +
-                    (ord($string{$a + 1}) - 128) * 4096 +
-                    (ord($string{$a + 2}) - 128) * 64 +
-                    (ord($string{$a + 3}) - 128);
-                $a += 4;
-            } elseif (ord($string{$a}) >= 248 && ord($string{$a}) <= 251) {
-                $ud =
-                    (ord($string{$a}) - 248) * 16777216 +
-                    (ord($string{$a + 1}) - 128) * 262144 +
-                    (ord($string{$a + 2}) - 128) * 4096 +
-                    (ord($string{$a + 3}) - 128) * 64 +
-                    (ord($string{$a + 4}) - 128);
-                $a += 5;
-            } elseif (ord($string{$a}) >= 252 && ord($string{$a}) <= 253) {
-                $ud =
-                    (ord($string{$a}) - 252) * 1073741824 +
-                    (ord($string{$a + 1}) - 128) * 16777216 +
-                    (ord($string{$a + 2}) - 128) * 262144 +
-                    (ord($string{$a + 3}) - 128) * 4096 +
-                    (ord($string{$a + 4}) - 128) * 64 +
-                    (ord($string{$a + 5}) - 128);
-                $a += 6;
-            } elseif (ord($string{$a}) >= 254 && ord($string{$a}) <= 255) {
-                $ud = false;
-            }
-            $ascii .= "&#$ud;";
-        }
-        return $ascii;
     }
 }
 

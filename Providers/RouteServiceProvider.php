@@ -2,6 +2,7 @@
 
 namespace Modules\Core\Providers;
 
+
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
