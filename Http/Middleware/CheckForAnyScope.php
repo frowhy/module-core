@@ -14,8 +14,9 @@ class CheckForAnyScope
      * Handle an incoming request.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \Closure $next
-     * @param array $scopes
+     * @param \Closure                 $next
+     * @param array                    $scopes
+     *
      * @return mixed
      */
     public function handle(Request $request, Closure $next, ...$scopes)

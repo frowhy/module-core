@@ -3,23 +3,18 @@
  * Created by PhpStorm.
  * User: guoliang
  * Date: 2019/3/11
- * Time: 上午10:11
+ * Time: 上午10:11.
  */
 
 namespace Modules\Core\Criteria;
 
-
 use Illuminate\Http\Request;
-use Modules\Core\Traits\Criteria\{
-    ParseFilterTrait,
-    ParseOrderByTrait,
-    ParseSearchableTrait,
-    ParseWithTrait
-};
-use Prettus\Repository\Contracts\{
-    CriteriaInterface,
-    RepositoryInterface
-};
+use Modules\Core\Traits\Criteria\ParseFilterTrait;
+use Modules\Core\Traits\Criteria\ParseOrderByTrait;
+use Modules\Core\Traits\Criteria\ParseSearchableTrait;
+use Modules\Core\Traits\Criteria\ParseWithTrait;
+use Prettus\Repository\Contracts\CriteriaInterface;
+use Prettus\Repository\Contracts\RepositoryInterface;
 
 class RequestCriteria implements CriteriaInterface
 {
@@ -56,9 +51,11 @@ class RequestCriteria implements CriteriaInterface
 
     /**
      * @param \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|\Illuminate\Database\Query\Builder $model
-     * @param \Prettus\Repository\Contracts\RepositoryInterface $repository
-     * @return mixed
+     * @param \Prettus\Repository\Contracts\RepositoryInterface                                                            $repository
+     *
      * @throws \Exception
+     *
+     * @return mixed
      */
     public function apply($model, RepositoryInterface $repository)
     {

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Modules\Core\Traits\Supports;
-
 
 use Illuminate\Support\Arr;
 use Modules\Core\Enums\StatusCodeEnum;
@@ -13,12 +11,13 @@ trait ResponseHandleTrait
     use ResponseParseTrait;
 
     /**
-     * Response Handle
+     * Response Handle.
      *
      * @param int $statusCode
      * @param $data
-     * @param bool $overwrite
+     * @param bool        $overwrite
      * @param string|null $message
+     *
      * @return \Modules\Core\Supports\Response
      */
     public static function handle(
@@ -48,11 +47,12 @@ trait ResponseHandleTrait
     }
 
     /**
-     * Response Ok
+     * Response Ok.
      *
      * @param $data
-     * @param bool $overwrite
+     * @param bool        $overwrite
      * @param string|null $message
+     *
      * @return \Modules\Core\Supports\Response
      */
     public static function handleOk($data = null, bool $overwrite = false, string $message = null): Response
@@ -61,11 +61,12 @@ trait ResponseHandleTrait
     }
 
     /**
-     * Response Created
+     * Response Created.
      *
      * @param $data
-     * @param bool $overwrite
+     * @param bool        $overwrite
      * @param string|null $message
+     *
      * @return \Modules\Core\Supports\Response
      */
     public static function handleCreated($data = null, bool $overwrite = false, string $message = null): Response
@@ -74,11 +75,12 @@ trait ResponseHandleTrait
     }
 
     /**
-     * Response Accepted
+     * Response Accepted.
      *
      * @param $data
-     * @param bool $overwrite
+     * @param bool        $overwrite
      * @param string|null $message
+     *
      * @return \Modules\Core\Supports\Response
      */
     public static function handleAccepted($data = null, bool $overwrite = false, string $message = null): Response
@@ -87,11 +89,12 @@ trait ResponseHandleTrait
     }
 
     /**
-     * Response NoContent
+     * Response NoContent.
      *
      * @param $data
-     * @param bool $overwrite
+     * @param bool        $overwrite
      * @param string|null $message
+     *
      * @return \Modules\Core\Supports\Response
      */
     public static function handleNoContent($data = null, bool $overwrite = false, string $message = null): Response
@@ -100,11 +103,12 @@ trait ResponseHandleTrait
     }
 
     /**
-     * Response ResetContent
+     * Response ResetContent.
      *
      * @param $data
-     * @param bool $overwrite
+     * @param bool        $overwrite
      * @param string|null $message
+     *
      * @return \Modules\Core\Supports\Response
      */
     public static function handleResetContent($data = null, bool $overwrite = false, string $message = null): Response
@@ -113,11 +117,12 @@ trait ResponseHandleTrait
     }
 
     /**
-     * Response SeeOther
+     * Response SeeOther.
      *
      * @param $data
-     * @param bool $overwrite
+     * @param bool        $overwrite
      * @param string|null $message
+     *
      * @return \Modules\Core\Supports\Response
      */
     public static function handleSeeOther($data = null, bool $overwrite = false, string $message = null): Response
@@ -126,11 +131,12 @@ trait ResponseHandleTrait
     }
 
     /**
-     * Response BadRequest
+     * Response BadRequest.
      *
      * @param $data
-     * @param bool $overwrite
+     * @param bool        $overwrite
      * @param string|null $message
+     *
      * @return \Modules\Core\Supports\Response
      */
     public static function handleBadRequest($data = null, bool $overwrite = false, string $message = null): Response
@@ -139,11 +145,12 @@ trait ResponseHandleTrait
     }
 
     /**
-     * Response Unauthorized
+     * Response Unauthorized.
      *
      * @param $data
-     * @param bool $overwrite
+     * @param bool        $overwrite
      * @param string|null $message
+     *
      * @return \Modules\Core\Supports\Response
      */
     public static function handleUnauthorized($data = null, bool $overwrite = false, string $message = null): Response
@@ -152,11 +159,12 @@ trait ResponseHandleTrait
     }
 
     /**
-     * Response PaymentRequired
+     * Response PaymentRequired.
      *
      * @param $data
-     * @param bool $overwrite
+     * @param bool        $overwrite
      * @param string|null $message
+     *
      * @return \Modules\Core\Supports\Response
      */
     public static function handlePaymentRequired(
@@ -168,11 +176,12 @@ trait ResponseHandleTrait
     }
 
     /**
-     * Response Forbidden
+     * Response Forbidden.
      *
      * @param $data
-     * @param bool $overwrite
+     * @param bool        $overwrite
      * @param string|null $message
+     *
      * @return \Modules\Core\Supports\Response
      */
     public static function handleForbidden($data = null, bool $overwrite = false, string $message = null): Response
@@ -181,11 +190,12 @@ trait ResponseHandleTrait
     }
 
     /**
-     * Response NotFound
+     * Response NotFound.
      *
      * @param $data
-     * @param bool $overwrite
+     * @param bool        $overwrite
      * @param string|null $message
+     *
      * @return \Modules\Core\Supports\Response
      */
     public static function handleNotFound($data = null, bool $overwrite = false, string $message = null): Response
@@ -194,11 +204,12 @@ trait ResponseHandleTrait
     }
 
     /**
-     * Response UnprocessableEntity
+     * Response UnprocessableEntity.
      *
      * @param $data
-     * @param bool $overwrite
+     * @param bool        $overwrite
      * @param string|null $message
+     *
      * @return \Modules\Core\Supports\Response
      */
     public static function handleUnprocessableEntity(
@@ -210,11 +221,12 @@ trait ResponseHandleTrait
     }
 
     /**
-     * Response Locked
+     * Response Locked.
      *
      * @param $data
-     * @param bool $overwrite
+     * @param bool        $overwrite
      * @param string|null $message
+     *
      * @return \Modules\Core\Supports\Response
      */
     public static function handleLocked($data = null, bool $overwrite = false, string $message = null): Response
@@ -223,11 +235,12 @@ trait ResponseHandleTrait
     }
 
     /**
-     * Response TooManyRequests
+     * Response TooManyRequests.
      *
      * @param $data
-     * @param bool $overwrite
+     * @param bool        $overwrite
      * @param string|null $message
+     *
      * @return \Modules\Core\Supports\Response
      */
     public static function handleTooManyRequests(
@@ -239,11 +252,12 @@ trait ResponseHandleTrait
     }
 
     /**
-     * Response InternalServerError
+     * Response InternalServerError.
      *
      * @param $data
-     * @param bool $overwrite
+     * @param bool        $overwrite
      * @param string|null $message
+     *
      * @return \Modules\Core\Supports\Response
      */
     public static function handleInternalServerError(
@@ -255,11 +269,12 @@ trait ResponseHandleTrait
     }
 
     /**
-     * Response NotImplemented
+     * Response NotImplemented.
      *
      * @param $data
-     * @param bool $overwrite
+     * @param bool        $overwrite
      * @param string|null $message
+     *
      * @return \Modules\Core\Supports\Response
      */
     public static function handleNotImplemented($data = null, bool $overwrite = false, string $message = null): Response

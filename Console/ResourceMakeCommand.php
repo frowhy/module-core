@@ -11,7 +11,6 @@ class ResourceMakeCommand extends BaseResourceMakeCommand
 {
     /**
      * Execute the console command.
-     *
      */
     public function handle()
     {
@@ -45,8 +44,9 @@ class ResourceMakeCommand extends BaseResourceMakeCommand
     }
 
     /**
-     * @return mixed
      * @throws \Nwidart\Modules\Exceptions\ModuleNotFoundException
+     *
+     * @return mixed
      */
     protected function getTemplateContents()
     {
@@ -58,9 +58,9 @@ class ResourceMakeCommand extends BaseResourceMakeCommand
         $root_namespace .= '\\'.$module->getStudlyName();
 
         return (new Stub('/resource.stub', [
-            'MODEL' => $this->getModelName(),
-            'NAMESPACE' => $this->getClassNamespace($module),
-            'CLASS' => $this->getClass(),
+            'MODEL'          => $this->getModelName(),
+            'NAMESPACE'      => $this->getClassNamespace($module),
+            'CLASS'          => $this->getClass(),
             'ROOT_NAMESPACE' => $root_namespace,
         ]))->render();
     }

@@ -3,20 +3,16 @@
 namespace Modules\Core\Console;
 
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
-use Illuminate\Support\{
-    Facades\File,
-    Str
-};
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 use Nwidart\Modules\Commands\GeneratorCommand;
 use Nwidart\Modules\Exceptions\FileAlreadyExistException;
 use Nwidart\Modules\Generators\FileGenerator;
-use Nwidart\Modules\Support\{
-    Config\GenerateConfigReader, Stub
-};
+use Nwidart\Modules\Support\Config\GenerateConfigReader;
+use Nwidart\Modules\Support\Stub;
 use Nwidart\Modules\Traits\ModuleCommandTrait;
-use Symfony\Component\Console\Input\{
-    InputArgument, InputOption
-};
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 class RepositoryMakeCommand extends GeneratorCommand
 {
@@ -47,6 +43,7 @@ class RepositoryMakeCommand extends GeneratorCommand
     {
         /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $laravelFileRepository */
         $laravelFileRepository = $this->laravel['modules'];
+
         return $laravelFileRepository->config('paths.generator.repository.path', 'Repositories');
     }
 
@@ -101,6 +98,7 @@ class RepositoryMakeCommand extends GeneratorCommand
 
     /**
      * @param $path
+     *
      * @throws \Nwidart\Modules\Exceptions\ModuleNotFoundException
      */
     private function bindingsHandle($path)
@@ -120,8 +118,9 @@ class RepositoryMakeCommand extends GeneratorCommand
     /**
      * Get bindings template contents.
      *
-     * @return string
      * @throws \Nwidart\Modules\Exceptions\ModuleNotFoundException
+     *
+     * @return string
      */
     protected function getBindingsTemplateContents()
     {
@@ -130,18 +129,19 @@ class RepositoryMakeCommand extends GeneratorCommand
         $module = $laravelFileRepository->findOrFail($this->getModuleName());
 
         return (new Stub('/bindings.stub', [
-            'NAMESPACE' => $this->getClassNamespace($module),
+            'NAMESPACE'       => $this->getClassNamespace($module),
             'INTERFACE_CLASS' => $this->getClass(),
             'IMPLEMENT_CLASS' => $this->getClass().'Eloquent',
-            'PLACEHOLDER' => '//',
+            'PLACEHOLDER'     => '//',
         ]))->render();
     }
 
     /**
      * Get implementation template contents.
      *
-     * @return string
      * @throws \Nwidart\Modules\Exceptions\ModuleNotFoundException
+     *
+     * @return string
      */
     protected function getImplementTemplateContents()
     {
@@ -153,9 +153,9 @@ class RepositoryMakeCommand extends GeneratorCommand
         $root_namespace .= '\\'.$module->getStudlyName();
 
         return (new Stub('/repository-eloquent.stub', [
-            'MODEL' => $this->getModelName(),
-            'NAMESPACE' => $this->getClassNamespace($module),
-            'CLASS' => $this->getClass(),
+            'MODEL'          => $this->getModelName(),
+            'NAMESPACE'      => $this->getClassNamespace($module),
+            'CLASS'          => $this->getClass(),
             'ROOT_NAMESPACE' => $root_namespace,
         ]))->render();
     }
@@ -163,8 +163,9 @@ class RepositoryMakeCommand extends GeneratorCommand
     /**
      * Get interface template contents.
      *
-     * @return string
      * @throws \Nwidart\Modules\Exceptions\ModuleNotFoundException
+     *
+     * @return string
      */
     protected function getInterfaceTemplateContents()
     {
@@ -174,7 +175,7 @@ class RepositoryMakeCommand extends GeneratorCommand
 
         return (new Stub('/repository.stub', [
             'NAMESPACE' => $this->getClassNamespace($module),
-            'CLASS' => $this->getClass(),
+            'CLASS'     => $this->getClass(),
         ]))->render();
     }
 

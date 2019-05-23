@@ -1,21 +1,17 @@
 <?php
 
-
 namespace Modules\Core\Traits\Supports;
-
 
 use Exception;
 use Modules\Core\Enums\StatusCodeEnum;
 use Modules\Core\ErrorCodes\JWTErrorCode;
 use Modules\Core\Supports\Handler;
-use Tymon\JWTAuth\Exceptions\{
-    InvalidClaimException,
-    PayloadException,
-    TokenBlacklistedException,
-    TokenExpiredException,
-    TokenInvalidException,
-    UserNotDefinedException
-};
+use Tymon\JWTAuth\Exceptions\InvalidClaimException;
+use Tymon\JWTAuth\Exceptions\PayloadException;
+use Tymon\JWTAuth\Exceptions\TokenBlacklistedException;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
+use Tymon\JWTAuth\Exceptions\TokenInvalidException;
+use Tymon\JWTAuth\Exceptions\UserNotDefinedException;
 
 trait HandleParseTrait
 {

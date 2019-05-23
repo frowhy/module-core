@@ -3,15 +3,14 @@
  * Created by PhpStorm.
  * User: frowhy
  * Date: 2017/11/26
- * Time: 下午2:45
+ * Time: 下午2:45.
  */
-
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
-/**
+/*
  * 生成验证码
  */
 if (!function_exists('verification_code')) {
@@ -25,7 +24,7 @@ if (!function_exists('verification_code')) {
     }
 }
 
-/**
+/*
  * 相对 URL
  */
 if (!function_exists('relative_url')) {
@@ -38,7 +37,7 @@ if (!function_exists('relative_url')) {
     }
 }
 
-/**
+/*
  * 储存 URL
  */
 if (!function_exists('storage_url')) {
@@ -48,7 +47,7 @@ if (!function_exists('storage_url')) {
     }
 }
 
-/**
+/*
  * 两位小数
  */
 if (!function_exists('price')) {
@@ -58,7 +57,7 @@ if (!function_exists('price')) {
     }
 }
 
-/**
+/*
  * 16 进制转 RGB
  */
 if (!function_exists('hex2rgb')) {
@@ -87,7 +86,7 @@ if (!function_exists('hex2rgb')) {
     }
 }
 
-/**
+/*
  * 灰度等级
  */
 if (!function_exists('gray_level')) {
@@ -97,7 +96,7 @@ if (!function_exists('gray_level')) {
     }
 }
 
-/**
+/*
  * 去年时间范围
  */
 if (!function_exists('last_year')) {
@@ -111,7 +110,7 @@ if (!function_exists('last_year')) {
     }
 }
 
-/**
+/*
  * 今年时间范围
  */
 if (!function_exists('this_year')) {
@@ -125,7 +124,7 @@ if (!function_exists('this_year')) {
     }
 }
 
-/**
+/*
  * 明年时间范围
  */
 if (!function_exists('next_year')) {
@@ -139,7 +138,7 @@ if (!function_exists('next_year')) {
     }
 }
 
-/**
+/*
  * 上个月时间范围
  */
 if (!function_exists('last_month')) {
@@ -153,7 +152,7 @@ if (!function_exists('last_month')) {
     }
 }
 
-/**
+/*
  * 本月时间范围
  */
 if (!function_exists('this_month')) {
@@ -167,7 +166,7 @@ if (!function_exists('this_month')) {
     }
 }
 
-/**
+/*
  * 下个月时间范围
  */
 if (!function_exists('next_month')) {
@@ -181,7 +180,7 @@ if (!function_exists('next_month')) {
     }
 }
 
-/**
+/*
  * 上周时间范围
  */
 if (!function_exists('last_week')) {
@@ -195,7 +194,7 @@ if (!function_exists('last_week')) {
     }
 }
 
-/**
+/*
  * 本周时间范围
  */
 if (!function_exists('this_week')) {
@@ -209,7 +208,7 @@ if (!function_exists('this_week')) {
     }
 }
 
-/**
+/*
  * 下周时间范围
  */
 if (!function_exists('next_week')) {
@@ -223,7 +222,7 @@ if (!function_exists('next_week')) {
     }
 }
 
-/**
+/*
  * 昨天时间范围
  */
 if (!function_exists('yesterday')) {
@@ -237,7 +236,7 @@ if (!function_exists('yesterday')) {
     }
 }
 
-/**
+/*
  * 今天时间范围
  */
 if (!function_exists('today')) {
@@ -251,7 +250,7 @@ if (!function_exists('today')) {
     }
 }
 
-/**
+/*
  * 明天时间范围
  */
 if (!function_exists('tomorrow')) {
@@ -265,7 +264,7 @@ if (!function_exists('tomorrow')) {
     }
 }
 
-/**
+/*
  * 微信浏览器
  */
 if (!function_exists('in_wechat')) {
@@ -275,7 +274,7 @@ if (!function_exists('in_wechat')) {
     }
 }
 
-/**
+/*
  * 微信
  */
 if (!function_exists('is_wechat')) {
@@ -285,7 +284,7 @@ if (!function_exists('is_wechat')) {
     }
 }
 
-/**
+/*
  * 小程序
  */
 if (!function_exists('is_mini_program')) {
@@ -295,7 +294,7 @@ if (!function_exists('is_mini_program')) {
     }
 }
 
-/**
+/*
  * 读取 DATA 数据
  */
 if (!function_exists('get_data')) {
@@ -323,7 +322,7 @@ if (!function_exists('get_data')) {
     }
 }
 
-/**
+/*
  * 三元运算
  */
 if (!function_exists('condition')) {
@@ -337,7 +336,7 @@ if (!function_exists('condition')) {
     }
 }
 
-/**
+/*
  * 清空缓存
  */
 if (!function_exists('clear_cache')) {
@@ -347,7 +346,7 @@ if (!function_exists('clear_cache')) {
     }
 }
 
-/**
+/*
  * 判定缓存
  */
 if (!function_exists('has_cache')) {
@@ -357,7 +356,7 @@ if (!function_exists('has_cache')) {
     }
 }
 
-/**
+/*
  * 读取缓存
  */
 if (!function_exists('get_cache')) {
@@ -367,7 +366,7 @@ if (!function_exists('get_cache')) {
     }
 }
 
-/**
+/*
  * 写缓存
  */
 if (!function_exists('set_cache')) {
@@ -377,7 +376,7 @@ if (!function_exists('set_cache')) {
     }
 }
 
-/**
+/*
  * 随机值
  */
 if (!function_exists('random')) {
@@ -393,7 +392,7 @@ if (!function_exists('random')) {
     }
 }
 
-/**
+/*
  * 随机数字
  */
 if (!function_exists('random_digital')) {
@@ -403,7 +402,7 @@ if (!function_exists('random_digital')) {
     }
 }
 
-/**
+/*
  * 随机字母
  */
 if (!function_exists('random_alphabet')) {
@@ -418,11 +417,12 @@ if (!function_exists('random_alphabet')) {
             $param = Arr::random($map);
             $str .= chr(call_user_func_array('rand', $param));
         }
+
         return $str;
     }
 }
 
-/**
+/*
  * 随机大写字母
  */
 if (!function_exists('random_alphabet_upper')) {
@@ -432,7 +432,7 @@ if (!function_exists('random_alphabet_upper')) {
     }
 }
 
-/**
+/*
  * 随机小写字母
  */
 if (!function_exists('random_alphabet_lower')) {
@@ -442,17 +442,17 @@ if (!function_exists('random_alphabet_lower')) {
     }
 }
 
-/**
+/*
  * 随机日期
  */
 if (!function_exists('random_date')) {
     function random_date(): string
     {
-        return (string) mt_rand(2000, (int) date('Y')).sprintf("%02d", mt_rand(1, 12)).sprintf("%02d", mt_rand(1, 28));
+        return (string) mt_rand(2000, (int) date('Y')).sprintf('%02d', mt_rand(1, 12)).sprintf('%02d', mt_rand(1, 28));
     }
 }
 
-/**
+/*
  * 轮询调度
  */
 if (!function_exists('round_robin')) {
@@ -481,7 +481,7 @@ if (!function_exists('round_robin')) {
     }
 }
 
-/**
+/*
  * 13 位时间戳
  *
  * @return float
@@ -490,11 +490,12 @@ if (!function_exists('get_millisecond')) {
     function get_millisecond(): float
     {
         list($t1, $t2) = explode(' ', microtime());
+
         return (float) sprintf('%.0f', (floatval($t1) + floatval($t2)) * 1000);
     }
 }
 
-/**
+/*
  * Get the boolean value of a variable
  */
 if (!function_exists('is_true')) {

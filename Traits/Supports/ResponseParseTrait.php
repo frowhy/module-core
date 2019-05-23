@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Modules\Core\Traits\Supports;
-
 
 use Illuminate\Support\Arr;
 
