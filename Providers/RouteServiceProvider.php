@@ -2,11 +2,10 @@
 
 namespace Modules\Core\Providers;
 
-
 use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
 class RouteServiceProvider extends ServiceProvider
 {

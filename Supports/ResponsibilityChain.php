@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: frowhy
  * Date: 2019-03-08
- * Time: 11:23
+ * Time: 11:23.
  */
 
 namespace Modules\Core\Supports;
@@ -16,7 +16,7 @@ class ResponsibilityChain
     private $result = null;
     private $lastResult = null;
 
-    public function append(Closure $result, bool $isLastResult = false, bool $isNext = false): ResponsibilityChain
+    public function append(Closure $result, bool $isLastResult = false, bool $isNext = false): self
     {
         if (!$this->isError || $isNext) {
             $this->result = $result(get_data($this->result), is_true($this->result));

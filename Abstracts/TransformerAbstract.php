@@ -3,16 +3,16 @@
  * Created by PhpStorm.
  * User: frowhy
  * Date: 2017/12/6
- * Time: 上午10:30
+ * Time: 上午10:30.
  */
 
 namespace Modules\Core\Abstracts;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use League\Fractal\TransformerAbstract as BaseTransformerAbstract;
 use Modules\Core\Contracts\Repository\Filter;
 use Modules\Core\Supports\Response;
-use League\Fractal\TransformerAbstract as BaseTransformerAbstract;
 
 abstract class TransformerAbstract extends BaseTransformerAbstract
 {
@@ -40,7 +40,6 @@ abstract class TransformerAbstract extends BaseTransformerAbstract
         $param = Response::param('requested_fields') ?? Arr::get($this->filter->requestedFields, $class);
 
         if (!is_null($param)) {
-
             if (is_array($param)) {
                 $requestedFields = $param;
             } else {
@@ -48,7 +47,7 @@ abstract class TransformerAbstract extends BaseTransformerAbstract
             }
 
             foreach ($requestedFields as $requestedField) {
-                if ($this instanceof TransformerAbstract) {
+                if ($this instanceof self) {
                     $this->field = Arr::only($this->field, $this->getFilterField($requestedField));
                 }
             }
@@ -61,7 +60,6 @@ abstract class TransformerAbstract extends BaseTransformerAbstract
         $param = Response::param('exclude_fields') ?? Arr::get($this->filter->excludeFields, $class);
 
         if (!is_null($param)) {
-
             if (is_array($param)) {
                 $excludeFields = $param;
             } else {
@@ -69,7 +67,7 @@ abstract class TransformerAbstract extends BaseTransformerAbstract
             }
 
             foreach ($excludeFields as $excludeField) {
-                if ($this instanceof TransformerAbstract) {
+                if ($this instanceof self) {
                     $this->field = Arr::except($this->field, $this->getFilterField($excludeField));
                 }
             }
@@ -86,7 +84,6 @@ abstract class TransformerAbstract extends BaseTransformerAbstract
             $field = Arr::last($fieldArray);
             Arr::forget($fieldArray, $length - 1);
             $scope = implode('.', $fieldArray);
-
         }
 
         if ($scope === $this->getCurrentScope()->getIdentifier()) {

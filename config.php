@@ -23,30 +23,30 @@ return [
     */
 
     'stubs' => [
-        'enabled' => true,
-        'path' => base_path().'/modules/Core/Stubs',
-        'files' => [
-            'routes/web' => 'Routes/web.php',
-            'routes/api' => 'Routes/api.php',
-            'routes/console' => 'Routes/console.php',
-            'routes/schedule' => 'Routes/schedule.php',
-            'routes/event/listen' => 'Routes/event/listen.php',
+        'enabled'      => true,
+        'path'         => base_path('vendor/frowhy/module-core/Stubs'),
+        'files'        => [
+            'routes/web'             => 'Routes/web.php',
+            'routes/api'             => 'Routes/api.php',
+            'routes/console'         => 'Routes/console.php',
+            'routes/schedule'        => 'Routes/schedule.php',
+            'routes/event/listen'    => 'Routes/event/listen.php',
             'routes/event/subscribe' => 'Routes/event/subscribe.php',
-            'routes/middleware' => 'Routes/middleware.php',
-            'scaffold/config' => 'Config/config.php',
-            'composer' => 'composer.json',
-            '.gitignore' => '.gitignore',
-            'providers/controller' => 'Providers/ControllerServiceProvider.php',
-            'providers/service' => 'Providers/ServiceServiceProvider.php',
-            'providers/repository' => 'Providers/RepositoryServiceProvider.php',
-            'readme' => 'readme.md',
+            'routes/middleware'      => 'Routes/middleware.php',
+            'scaffold/config'        => 'Config/config.php',
+            'composer'               => 'composer.json',
+            '.gitignore'             => '.gitignore',
+            'providers/controller'   => 'Providers/ControllerServiceProvider.php',
+            'providers/service'      => 'Providers/ServiceServiceProvider.php',
+            'providers/repository'   => 'Providers/RepositoryServiceProvider.php',
+            'readme'                 => 'readme.md',
         ],
         'replacements' => [
-            'routes/web' => ['LOWER_NAME', 'STUDLY_NAME'],
-            'routes/api' => ['LOWER_NAME', 'STUDLY_NAME'],
-            'json' => ['LOWER_NAME', 'STUDLY_NAME', 'MODULE_NAMESPACE'],
-            'scaffold/config' => ['STUDLY_NAME'],
-            'composer' => [
+            'routes/web'           => ['LOWER_NAME', 'STUDLY_NAME'],
+            'routes/api'           => ['LOWER_NAME', 'STUDLY_NAME'],
+            'json'                 => ['LOWER_NAME', 'STUDLY_NAME', 'MODULE_NAMESPACE'],
+            'scaffold/config'      => ['STUDLY_NAME'],
+            'composer'             => [
                 'LOWER_NAME',
                 'STUDLY_NAME',
                 'VENDOR',
@@ -54,7 +54,7 @@ return [
                 'AUTHOR_EMAIL',
                 'MODULE_NAMESPACE',
             ],
-            'readme' => [
+            'readme'               => [
                 'LOWER_NAME',
                 'STUDLY_NAME',
             ],
@@ -62,7 +62,7 @@ return [
                 'MODULE_NAMESPACE',
                 'STUDLY_NAME',
             ],
-            'providers/service' => [
+            'providers/service'    => [
                 'MODULE_NAMESPACE',
                 'STUDLY_NAME',
             ],
@@ -71,7 +71,7 @@ return [
                 'STUDLY_NAME',
             ],
         ],
-        'gitkeep' => true,
+        'gitkeep'      => true,
     ],
     'paths' => [
         /*
@@ -114,33 +114,33 @@ return [
         | Set the generate key to false to not generate that folder
         */
         'generator' => [
-            'config' => ['path' => 'Config', 'generate' => true],
-            'command' => ['path' => 'Console', 'generate' => true],
-            'migration' => ['path' => 'Database/Migrations', 'generate' => true],
-            'seeder' => ['path' => 'Database/Seeders', 'generate' => true],
-            'factory' => ['path' => 'Database/factories', 'generate' => true],
-            'model' => ['path' => 'Entities', 'generate' => true],
-            'controller' => ['path' => 'Http/Controllers', 'generate' => true],
-            'filter' => ['path' => 'Http/Middleware', 'generate' => true],
-            'request' => ['path' => 'Http/Requests', 'generate' => true],
-            'provider' => ['path' => 'Providers', 'generate' => false],
-            'assets' => ['path' => 'Resources/assets', 'generate' => false],
-            'lang' => ['path' => 'Resources/lang', 'generate' => true],
-            'views' => ['path' => 'Resources/views', 'generate' => false],
-            'test' => ['path' => 'Tests', 'generate' => true],
-            'repository' => ['path' => 'Repositories', 'generate' => true],
-            'event' => ['path' => 'Events', 'generate' => false],
-            'listener' => ['path' => 'Listeners', 'generate' => false],
-            'policies' => ['path' => 'Policies', 'generate' => false],
-            'rules' => ['path' => 'Rules', 'generate' => false],
-            'jobs' => ['path' => 'Jobs', 'generate' => false],
-            'emails' => ['path' => 'Emails', 'generate' => false],
+            'config'        => ['path' => 'Config', 'generate' => true],
+            'command'       => ['path' => 'Console', 'generate' => true],
+            'migration'     => ['path' => 'Database/Migrations', 'generate' => true],
+            'seeder'        => ['path' => 'Database/Seeders', 'generate' => true],
+            'factory'       => ['path' => 'Database/factories', 'generate' => true],
+            'model'         => ['path' => 'Entities', 'generate' => true],
+            'controller'    => ['path' => 'Http/Controllers', 'generate' => true],
+            'filter'        => ['path' => 'Http/Middleware', 'generate' => true],
+            'request'       => ['path' => 'Http/Requests', 'generate' => true],
+            'provider'      => ['path' => 'Providers', 'generate' => false],
+            'assets'        => ['path' => 'Resources/assets', 'generate' => false],
+            'lang'          => ['path' => 'Resources/lang', 'generate' => true],
+            'views'         => ['path' => 'Resources/views', 'generate' => false],
+            'test'          => ['path' => 'Tests', 'generate' => true],
+            'repository'    => ['path' => 'Repositories', 'generate' => true],
+            'event'         => ['path' => 'Events', 'generate' => false],
+            'listener'      => ['path' => 'Listeners', 'generate' => false],
+            'policies'      => ['path' => 'Policies', 'generate' => false],
+            'rules'         => ['path' => 'Rules', 'generate' => false],
+            'jobs'          => ['path' => 'Jobs', 'generate' => false],
+            'emails'        => ['path' => 'Emails', 'generate' => false],
             'notifications' => ['path' => 'Notifications', 'generate' => false],
-            'resource' => ['path' => 'Transformers', 'generate' => true],
-            'services' => ['path' => 'Services', 'generate' => true],
-            'presenters' => ['path' => 'Presenters', 'generate' => true],
-            'api' => ['path' => 'Http/Controllers/Api/V1', 'generate' => true],
-            'enums' => ['path' => 'Enums', 'generate' => true],
+            'resource'      => ['path' => 'Transformers', 'generate' => true],
+            'services'      => ['path' => 'Services', 'generate' => true],
+            'presenters'    => ['path' => 'Presenters', 'generate' => true],
+            'api'           => ['path' => 'Http/Controllers/Api/V1', 'generate' => true],
+            'enums'         => ['path' => 'Enums', 'generate' => true],
         ],
     ],
     /*
@@ -155,7 +155,7 @@ return [
 
     'scan' => [
         'enabled' => false,
-        'paths' => [
+        'paths'   => [
             base_path('vendor/*/*'),
         ],
     ],
@@ -171,7 +171,7 @@ return [
     'composer' => [
         'vendor' => 'frowhy',
         'author' => [
-            'name' => 'Govern Fu',
+            'name'  => 'Govern Fu',
             'email' => 'frowhy@gmail.com',
         ],
     ],
@@ -183,9 +183,9 @@ return [
     | Here is the config for setting up caching feature.
     |
     */
-    'cache' => [
-        'enabled' => false,
-        'key' => 'laravel-modules',
+    'cache'    => [
+        'enabled'  => false,
+        'key'      => 'laravel-modules',
         'lifetime' => 60,
     ],
     /*
@@ -197,13 +197,13 @@ return [
     */
     'register' => [
         'translations' => true,
-        /**
+        /*
          * load files on boot or register method
          *
          * Note: boot not compatible with asgardcms
          *
          * @example boot|register
          */
-        'files' => 'register',
+        'files'        => 'register',
     ],
 ];

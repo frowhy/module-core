@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: frowhy
  * Date: 2019-02-28
- * Time: 17:10
+ * Time: 17:10.
  */
 
 namespace Modules\Core\Contracts\Repository;
@@ -11,10 +11,10 @@ namespace Modules\Core\Contracts\Repository;
 interface CheckPermission
 {
     /**
-     * 检查权限
+     * 检查权限.
      *
      * @param \Illuminate\Foundation\Auth\User $user
-     * @param int $id
+     * @param int                              $id
      *
      * @return mixed
      */

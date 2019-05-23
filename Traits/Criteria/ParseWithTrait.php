@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Modules\Core\Traits\Criteria;
 
 trait ParseWithTrait

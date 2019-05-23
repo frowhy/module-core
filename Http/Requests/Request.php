@@ -19,7 +19,6 @@ class Request extends FormRequest
 
     /**
      * @param Validator $validator
-     *
      */
     public function withValidator(Validator $validator)
     {

@@ -39,6 +39,7 @@ class PresenterMakeCommand extends GeneratorCommand
     {
         /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $laravelFileRepository */
         $laravelFileRepository = $this->laravel['modules'];
+
         return $laravelFileRepository->config('paths.generator.presenters.path', 'Presenters');
     }
 
@@ -68,8 +69,9 @@ class PresenterMakeCommand extends GeneratorCommand
     }
 
     /**
-     * @return mixed
      * @throws \Nwidart\Modules\Exceptions\ModuleNotFoundException
+     *
+     * @return mixed
      */
     protected function getTemplateContents()
     {
@@ -81,9 +83,9 @@ class PresenterMakeCommand extends GeneratorCommand
         $root_namespace .= '\\'.$module->getStudlyName();
 
         return (new Stub('/presenter.stub', [
-            'RESOURCE_NAME' => $this->getResourceName(),
-            'NAMESPACE' => $this->getClassNamespace($module),
-            'CLASS' => $this->getClass(),
+            'RESOURCE_NAME'  => $this->getResourceName(),
+            'NAMESPACE'      => $this->getClassNamespace($module),
+            'CLASS'          => $this->getClass(),
             'ROOT_NAMESPACE' => $root_namespace,
         ]))->render();
     }

@@ -13,10 +13,10 @@ class Check extends BaseAuthenticate
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Closure $next
-     *
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
      * @param $guard
+     *
      * @return mixed
      */
     public function handle($request, Closure $next, $guard)
@@ -24,6 +24,7 @@ class Check extends BaseAuthenticate
         app()->singleton('tymon.jwt.auth', function () use ($guard) {
             /** @var GuardContract $auth */
             $auth = auth($guard);
+
             return new JWTAuth(app('tymon.jwt.manager'), new Illuminate($auth), app('tymon.jwt.parser'));
         });
 

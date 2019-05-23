@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Modules\Core\Traits\Criteria;
-
 
 use Illuminate\Database\Eloquent\Builder;
 

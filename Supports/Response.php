@@ -3,20 +3,18 @@
  * Created by PhpStorm.
  * User: frowhy
  * Date: 2017/8/1
- * Time: 下午3:25
+ * Time: 下午3:25.
  */
 
 namespace Modules\Core\Supports;
 
 use Asm89\Stack\CorsService;
-use Illuminate\Contracts\Support\{
-    Arrayable, Renderable, Responsable
-};
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\Response as BaseResponse;
-use Illuminate\Support\{
-    Arr,
-    Str
-};
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Modules\Core\Contracts\Support\Boolable;
 use Modules\Core\Enums\StatusCodeEnum;
 use Modules\Core\Traits\Supports\ResponseHandleTrait;
@@ -38,7 +36,7 @@ class Response implements Responsable, Arrayable, Renderable, Boolable
     }
 
     /**
-     * 格式化响应
+     * 格式化响应.
      *
      * @return \Illuminate\Http\Response
      */
@@ -60,6 +58,7 @@ class Response implements Responsable, Arrayable, Renderable, Boolable
         } else {
             $response = response($response, $statusCode);
         }
+
         return $response;
     }
 
@@ -68,6 +67,7 @@ class Response implements Responsable, Arrayable, Renderable, Boolable
      * 允许跨域请求
      *
      * @param \Illuminate\Http\Response $response
+     *
      * @return \Illuminate\Http\Response
      */
     private function cors(BaseResponse $response): BaseResponse
@@ -136,7 +136,7 @@ class Response implements Responsable, Arrayable, Renderable, Boolable
      *
      * @return Response
      */
-    private static function call(array $response): Response
+    private static function call(array $response): self
     {
         return new self($response);
     }
@@ -152,7 +152,5 @@ class Response implements Responsable, Arrayable, Renderable, Boolable
                 return $request->header($header_param);
             }
         }
-
-        return null;
     }
 }

@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: frowhy
  * Date: 2019/2/26
- * Time: 11:10 AM
+ * Time: 11:10 AM.
  */
 
 namespace Modules\Core\Traits;
