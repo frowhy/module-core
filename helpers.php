@@ -5,6 +5,7 @@
  * Date: 2017/11/26
  * Time: 下午2:45.
  */
+
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -72,10 +73,10 @@ if (!function_exists('hex2rgb')) {
             ];
         } else {
             $color = $hexColor;
-            $r = substr($color, 0, 1).substr($color, 0, 1);
-            $g = substr($color, 1, 1).substr($color, 1, 1);
-            $b = substr($color, 2, 1).substr($color, 2, 1);
-            $rgb = [
+            $r     = substr($color, 0, 1).substr($color, 0, 1);
+            $g     = substr($color, 1, 1).substr($color, 1, 1);
+            $b     = substr($color, 2, 1).substr($color, 2, 1);
+            $rgb   = [
                 'r' => hexdec($r),
                 'g' => hexdec($g),
                 'b' => hexdec($b),
@@ -102,9 +103,9 @@ if (!function_exists('gray_level')) {
 if (!function_exists('last_year')) {
     function last_year(): array
     {
-        $carbon = new Carbon();
+        $carbon   = new Carbon();
         $start_at = $carbon->today()->subYear()->startOfYear();
-        $end_at = $carbon->today()->subYear()->endOfYear();
+        $end_at   = $carbon->today()->subYear()->endOfYear();
 
         return compact('start_at', 'end_at');
     }
@@ -116,9 +117,9 @@ if (!function_exists('last_year')) {
 if (!function_exists('this_year')) {
     function this_year(): array
     {
-        $carbon = new Carbon();
+        $carbon   = new Carbon();
         $start_at = $carbon->today()->startOfYear();
-        $end_at = $carbon->today()->endOfYear();
+        $end_at   = $carbon->today()->endOfYear();
 
         return compact('start_at', 'end_at');
     }
@@ -130,9 +131,9 @@ if (!function_exists('this_year')) {
 if (!function_exists('next_year')) {
     function next_year(): array
     {
-        $carbon = new Carbon();
+        $carbon   = new Carbon();
         $start_at = $carbon->today()->addYear()->startOfYear();
-        $end_at = $carbon->today()->addYear()->endOfYear();
+        $end_at   = $carbon->today()->addYear()->endOfYear();
 
         return compact('start_at', 'end_at');
     }
@@ -144,9 +145,9 @@ if (!function_exists('next_year')) {
 if (!function_exists('last_month')) {
     function last_month(): array
     {
-        $carbon = new Carbon();
+        $carbon   = new Carbon();
         $start_at = $carbon->today()->subMonth()->startOfMonth();
-        $end_at = $carbon->today()->subMonth()->endOfMonth();
+        $end_at   = $carbon->today()->subMonth()->endOfMonth();
 
         return compact('start_at', 'end_at');
     }
@@ -158,9 +159,9 @@ if (!function_exists('last_month')) {
 if (!function_exists('this_month')) {
     function this_month(): array
     {
-        $carbon = new Carbon();
+        $carbon   = new Carbon();
         $start_at = $carbon->today()->startOfMonth();
-        $end_at = $carbon->today()->endOfMonth();
+        $end_at   = $carbon->today()->endOfMonth();
 
         return compact('start_at', 'end_at');
     }
@@ -172,9 +173,9 @@ if (!function_exists('this_month')) {
 if (!function_exists('next_month')) {
     function next_month(): array
     {
-        $carbon = new Carbon();
+        $carbon   = new Carbon();
         $start_at = $carbon->today()->addMonth()->startOfMonth();
-        $end_at = $carbon->today()->addMonth()->endOfMonth();
+        $end_at   = $carbon->today()->addMonth()->endOfMonth();
 
         return compact('start_at', 'end_at');
     }
@@ -186,9 +187,9 @@ if (!function_exists('next_month')) {
 if (!function_exists('last_week')) {
     function last_week(): array
     {
-        $carbon = new Carbon();
+        $carbon   = new Carbon();
         $start_at = $carbon->today()->subWeek()->startOfWeek();
-        $end_at = $carbon->today()->subWeek()->endOfWeek();
+        $end_at   = $carbon->today()->subWeek()->endOfWeek();
 
         return compact('start_at', 'end_at');
     }
@@ -200,9 +201,9 @@ if (!function_exists('last_week')) {
 if (!function_exists('this_week')) {
     function this_week(): array
     {
-        $carbon = new Carbon();
+        $carbon   = new Carbon();
         $start_at = $carbon->today()->startOfWeek();
-        $end_at = $carbon->today()->endOfWeek();
+        $end_at   = $carbon->today()->endOfWeek();
 
         return compact('start_at', 'end_at');
     }
@@ -214,9 +215,9 @@ if (!function_exists('this_week')) {
 if (!function_exists('next_week')) {
     function next_week(): array
     {
-        $carbon = new Carbon();
+        $carbon   = new Carbon();
         $start_at = $carbon->today()->addWeek()->startOfWeek();
-        $end_at = $carbon->today()->addWeek()->endOfWeek();
+        $end_at   = $carbon->today()->addWeek()->endOfWeek();
 
         return compact('start_at', 'end_at');
     }
@@ -228,9 +229,9 @@ if (!function_exists('next_week')) {
 if (!function_exists('yesterday')) {
     function yesterday(): array
     {
-        $carbon = new Carbon();
+        $carbon   = new Carbon();
         $start_at = $carbon->yesterday()->startOfDay();
-        $end_at = $carbon->yesterday()->startOfDay();
+        $end_at   = $carbon->yesterday()->startOfDay();
 
         return compact('start_at', 'end_at');
     }
@@ -242,9 +243,9 @@ if (!function_exists('yesterday')) {
 if (!function_exists('today')) {
     function today(): array
     {
-        $carbon = new Carbon();
+        $carbon   = new Carbon();
         $start_at = $carbon->today()->startOfDay();
-        $end_at = $carbon->today()->startOfDay();
+        $end_at   = $carbon->today()->startOfDay();
 
         return compact('start_at', 'end_at');
     }
@@ -256,9 +257,9 @@ if (!function_exists('today')) {
 if (!function_exists('tomorrow')) {
     function tomorrow(): array
     {
-        $carbon = new Carbon();
+        $carbon   = new Carbon();
         $start_at = $carbon->tomorrow()->startOfDay();
-        $end_at = $carbon->tomorrow()->startOfDay();
+        $end_at   = $carbon->tomorrow()->startOfDay();
 
         return compact('start_at', 'end_at');
     }
@@ -415,7 +416,7 @@ if (!function_exists('random_alphabet')) {
         ];
         for ($i = 0; $i < $length; $i++) {
             $param = Arr::random($map);
-            $str .= chr(call_user_func_array('rand', $param));
+            $str   .= chr(call_user_func_array('rand', $param));
         }
 
         return $str;
@@ -459,14 +460,14 @@ if (!function_exists('round_robin')) {
     function round_robin(array &$items, array &$result): void
     {
         $total = 0;
-        $best = null;
+        $best  = null;
 
         foreach ($items as $key => $item) {
             $current = &$items[$key];
-            $weight = $current['weight'];
+            $weight  = $current['weight'];
 
             $current['current_weight'] += $weight;
-            $total += $weight;
+            $total                     += $weight;
 
             if (($best == null) || ($items[$best]['current_weight'] <
                                     $current['current_weight'])) {
@@ -518,7 +519,7 @@ if (!function_exists('get_routes')) {
             return $keys[0];
         }, true)->map(function (Collection $item) {
             return $item->mapWithKeys(function ($item, $key) {
-                $keys = explode('.', $key);
+                $keys  = explode('.', $key);
                 $route = collect($item->action)
                     ->put('method', $item->methods[0])
                     ->put('uri', $item->uri)
