@@ -114,7 +114,7 @@ class CoreServiceProvider extends ServiceProvider
      */
     public function registerFactories()
     {
-        if (!app()->/* @scrutinizer ignore-call */ environment('production')) {
+        if (!$this->app->environment('production')) {
             app(Factory::class)->load(__DIR__.'/../Database/factories');
         }
     }
@@ -162,7 +162,7 @@ class CoreServiceProvider extends ServiceProvider
     public function publish()
     {
         $this->publishes([
-            dirname(__DIR__).'/config.php' => config_path('module.php'),
+            dirname(__DIR__).'/config.php' => config_path('modules.php'),
         ], 'modular-config');
     }
 }

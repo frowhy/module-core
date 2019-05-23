@@ -1,11 +1,36 @@
 # 核心模块
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/frowhy/module-core.svg?style=flat-square)](https://packagist.org/packages/frowhy/module-core)
-[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
-[![Build Status](https://scrutinizer-ci.com/g/frowhy/module-core/badges/build.png?b=develop)](https://scrutinizer-ci.com/g/frowhy/module-core/build-status/develop)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/frowhy/module-core/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/frowhy/module-core/?branch=develop)
-[![Code Intelligence Status](https://scrutinizer-ci.com/g/frowhy/module-core/badges/code-intelligence.svg?b=develop)](https://scrutinizer-ci.com/code-intelligence)
-[![Total Downloads](https://img.shields.io/packagist/dt/frowhy/module-core.svg?style=flat-square)](https://packagist.org/packages/frowhy/module-core)
+<p align="center">
+    <a href="https://packagist.org/packages/frowhy/module-core">
+        <img src="https://poser.pugx.org/frowhy/module-core/v/stable" alt="Latest Stable Version">
+    </a>
+    <a href="https://packagist.org/packages/frowhy/module-core">
+        <img src="https://poser.pugx.org/frowhy/module-core/downloads" alt="Total Downloads">
+    </a>
+    <a href="https://packagist.org/packages/frowhy/module-core">
+        <img src="https://poser.pugx.org/frowhy/module-core/v/unstable" alt="Latest Unstable Version">
+    </a>
+    <a href="https://packagist.org/packages/frowhy/module-core">
+        <img src="https://poser.pugx.org/frowhy/module-core/license" alt="License">
+    </a>
+    <a href="https://packagist.org/packages/frowhy/module-core">
+        <img src="https://poser.pugx.org/frowhy/module-core/composerlock" alt="composer.lock">
+    </a>
+</p>
+<p align="center">
+    <a href="https://github.styleci.io/repos/187577783">
+        <img src="https://github.styleci.io/repos/187577783/shield?style=flat&branch=develop" alt="StyleCI Status">
+    </a>
+    <a href="https://scrutinizer-ci.com/g/frowhy/module-core/?branch=develop">
+        <img src="https://scrutinizer-ci.com/g/frowhy/module-core/badges/quality-score.png?b=develop" alt="Scrutinizer Code Quality">
+    </a>
+    <a href="https://scrutinizer-ci.com/g/frowhy/module-core/build-status/develop">
+        <img src="https://scrutinizer-ci.com/g/frowhy/module-core/badges/build.png?b=develop" alt="Build Status">
+    </a>
+    <a href="https://scrutinizer-ci.com/code-intelligence">
+        <img src="https://scrutinizer-ci.com/g/frowhy/module-core/badges/code-intelligence.svg?b=develop" alt="Code Intelligence Status">
+    </a>
+</p>
 
 * 模块名称：Core
 * 项目代号：core
