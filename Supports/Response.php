@@ -13,15 +13,21 @@ use Illuminate\Contracts\Support\{
     Arrayable, Renderable, Responsable
 };
 use Illuminate\Http\Response as BaseResponse;
-use Illuminate\Support\{Arr, Str};
+use Illuminate\Support\{
+    Arr,
+    Str
+};
 use Modules\Core\Contracts\Support\Boolable;
 use Modules\Core\Enums\StatusCodeEnum;
+use Modules\Core\Traits\Supports\ResponseHandleTrait;
 use SoapBox\Formatter\Formatter;
 
 class Response implements Responsable, Arrayable, Renderable, Boolable
 {
     protected $response;
     protected $statusCode;
+
+    use ResponseHandleTrait;
 
     public function __construct(array $response)
     {
@@ -123,6 +129,18 @@ class Response implements Responsable, Arrayable, Renderable, Boolable
         return Str::startsWith(Arr::get($this->response, 'meta.status_code'), 2);
     }
 
+    /**
+     * Return an response.
+     *
+     * @param array $response
+     *
+     * @return Response
+     */
+    private static function call(array $response): Response
+    {
+        return new self($response);
+    }
+
     public static function param(string $param)
     {
         $request = app('Illuminate\Http\Request');
@@ -136,262 +154,5 @@ class Response implements Responsable, Arrayable, Renderable, Boolable
         }
 
         return null;
-    }
-
-    /**
-     * Return an response.
-     *
-     * @param array $response
-     *
-     * @return Response
-     */
-    private static function call(array $response): Response
-    {
-        return new self($response);
-    }
-
-    /**
-     * Response Handle
-     *
-     * @param int $statusCode
-     * @param $data
-     * @param bool $overwrite
-     * @param string|null $message
-     * @return \Modules\Core\Supports\Response
-     */
-    public static function handle(int $statusCode, $data = null, bool $overwrite = false, string $message = null): Response
-    {
-        if (($overwrite && is_array($data))) {
-            $_data = $data;
-        } elseif (is_array($data) && Arr::has($data, 'data')) {
-            $_data = Arr::get($data, 'data');
-        } else {
-            if (is_string($data) && json_decode($data)) {
-                $_data = json_decode($data);
-            } else {
-                $_data = $data;
-            }
-        }
-        if ((is_array($data) && Arr::has($data, 'meta'))) {
-            $_meta = Arr::get($data, 'meta');
-        } else {
-            $_meta = [];
-        }
-        $_meta = Arr::prepend($_meta, $statusCode, 'status_code');
-        $_meta = Arr::prepend($_meta, $message ?? StatusCodeEnum::__($statusCode), 'message');
-        Arr::set($response, 'meta', $_meta);
-        if (!is_null($_data)) {
-            Arr::set($response, 'data', $_data);
-        }
-
-        return self::call($response);
-    }
-
-    /**
-     * Response Ok
-     *
-     * @param $data
-     * @param bool $overwrite
-     * @param string|null $message
-     * @return \Modules\Core\Supports\Response
-     */
-    public static function handleOk($data = null, bool $overwrite = false, string $message = null): Response
-    {
-        return self::handle(StatusCodeEnum::HTTP_OK, $data, $overwrite, $message);
-    }
-
-    /**
-     * Response Created
-     *
-     * @param $data
-     * @param bool $overwrite
-     * @param string|null $message
-     * @return \Modules\Core\Supports\Response
-     */
-    public static function handleCreated($data = null, bool $overwrite = false, string $message = null): Response
-    {
-        return self::handle(StatusCodeEnum::HTTP_CREATED, $data, $overwrite, $message);
-    }
-
-    /**
-     * Response Accepted
-     *
-     * @param $data
-     * @param bool $overwrite
-     * @param string|null $message
-     * @return \Modules\Core\Supports\Response
-     */
-    public static function handleAccepted($data = null, bool $overwrite = false, string $message = null): Response
-    {
-        return self::handle(StatusCodeEnum::HTTP_ACCEPTED, $data, $overwrite, $message);
-    }
-
-    /**
-     * Response NoContent
-     *
-     * @param $data
-     * @param bool $overwrite
-     * @param string|null $message
-     * @return \Modules\Core\Supports\Response
-     */
-    public static function handleNoContent($data = null, bool $overwrite = false, string $message = null): Response
-    {
-        return self::handle(StatusCodeEnum::HTTP_NO_CONTENT, $data, $overwrite, $message);
-    }
-
-    /**
-     * Response ResetContent
-     *
-     * @param $data
-     * @param bool $overwrite
-     * @param string|null $message
-     * @return \Modules\Core\Supports\Response
-     */
-    public static function handleResetContent($data = null, bool $overwrite = false, string $message = null): Response
-    {
-        return self::handle(StatusCodeEnum::HTTP_RESET_CONTENT, $data, $overwrite, $message);
-    }
-
-    /**
-     * Response SeeOther
-     *
-     * @param $data
-     * @param bool $overwrite
-     * @param string|null $message
-     * @return \Modules\Core\Supports\Response
-     */
-    public static function handleSeeOther($data = null, bool $overwrite = false, string $message = null): Response
-    {
-        return self::handle(StatusCodeEnum::HTTP_SEE_OTHER, $data, $overwrite, $message);
-    }
-
-    /**
-     * Response BadRequest
-     *
-     * @param $data
-     * @param bool $overwrite
-     * @param string|null $message
-     * @return \Modules\Core\Supports\Response
-     */
-    public static function handleBadRequest($data = null, bool $overwrite = false, string $message = null): Response
-    {
-        return self::handle(StatusCodeEnum::HTTP_BAD_REQUEST, $data, $overwrite, $message);
-    }
-
-    /**
-     * Response Unauthorized
-     *
-     * @param $data
-     * @param bool $overwrite
-     * @param string|null $message
-     * @return \Modules\Core\Supports\Response
-     */
-    public static function handleUnauthorized($data = null, bool $overwrite = false, string $message = null): Response
-    {
-        return self::handle(StatusCodeEnum::HTTP_UNAUTHORIZED, $data, $overwrite, $message);
-    }
-
-    /**
-     * Response PaymentRequired
-     *
-     * @param $data
-     * @param bool $overwrite
-     * @param string|null $message
-     * @return \Modules\Core\Supports\Response
-     */
-    public static function handlePaymentRequired($data = null, bool $overwrite = false, string $message = null): Response
-    {
-        return self::handle(StatusCodeEnum::HTTP_PAYMENT_REQUIRED, $data, $overwrite, $message);
-    }
-
-    /**
-     * Response Forbidden
-     *
-     * @param $data
-     * @param bool $overwrite
-     * @param string|null $message
-     * @return \Modules\Core\Supports\Response
-     */
-    public static function handleForbidden($data = null, bool $overwrite = false, string $message = null): Response
-    {
-        return self::handle(StatusCodeEnum::HTTP_PAYMENT_REQUIRED, $data, $overwrite, $message);
-    }
-
-    /**
-     * Response NotFound
-     *
-     * @param $data
-     * @param bool $overwrite
-     * @param string|null $message
-     * @return \Modules\Core\Supports\Response
-     */
-    public static function handleNotFound($data = null, bool $overwrite = false, string $message = null): Response
-    {
-        return self::handle(StatusCodeEnum::HTTP_NOT_FOUND, $data, $overwrite, $message);
-    }
-
-    /**
-     * Response UnprocessableEntity
-     *
-     * @param $data
-     * @param bool $overwrite
-     * @param string|null $message
-     * @return \Modules\Core\Supports\Response
-     */
-    public static function handleUnprocessableEntity($data = null, bool $overwrite = false, string $message = null): Response
-    {
-        return self::handle(StatusCodeEnum::HTTP_UNPROCESSABLE_ENTITY, $data, $overwrite, $message);
-    }
-
-    /**
-     * Response Locked
-     *
-     * @param $data
-     * @param bool $overwrite
-     * @param string|null $message
-     * @return \Modules\Core\Supports\Response
-     */
-    public static function handleLocked($data = null, bool $overwrite = false, string $message = null): Response
-    {
-        return self::handle(StatusCodeEnum::HTTP_LOCKED, $data, $overwrite, $message);
-    }
-
-    /**
-     * Response TooManyRequests
-     *
-     * @param $data
-     * @param bool $overwrite
-     * @param string|null $message
-     * @return \Modules\Core\Supports\Response
-     */
-    public static function handleTooManyRequests($data = null, bool $overwrite = false, string $message = null): Response
-    {
-        return self::handle(StatusCodeEnum::HTTP_TOO_MANY_REQUESTS, $data, $overwrite, $message);
-    }
-
-    /**
-     * Response InternalServerError
-     *
-     * @param $data
-     * @param bool $overwrite
-     * @param string|null $message
-     * @return \Modules\Core\Supports\Response
-     */
-    public static function handleInternalServerError($data = null, bool $overwrite = false, string $message = null): Response
-    {
-        return self::handle(StatusCodeEnum::HTTP_INTERNAL_SERVER_ERROR, $data, $overwrite, $message);
-    }
-
-    /**
-     * Response NotImplemented
-     *
-     * @param $data
-     * @param bool $overwrite
-     * @param string|null $message
-     * @return \Modules\Core\Supports\Response
-     */
-    public static function handleNotImplemented($data = null, bool $overwrite = false, string $message = null): Response
-    {
-        return self::handle(StatusCodeEnum::HTTP_NOT_IMPLEMENTED, $data, $overwrite, $message);
     }
 }
