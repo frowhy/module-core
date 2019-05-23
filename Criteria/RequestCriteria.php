@@ -27,7 +27,7 @@ class RequestCriteria implements CriteriaInterface
     protected $search;
     protected $searchData;
     protected $searchFields;
-    protected $isFirstField = true;
+    protected $isFirstField;
     protected $modelForceAndWhere;
     protected $fieldsSearchable;
     protected $fields;
@@ -47,6 +47,7 @@ class RequestCriteria implements CriteriaInterface
     public function __construct(Request $request)
     {
         $this->request = $request;
+        $this->isFirstField = true;
     }
 
     /**
