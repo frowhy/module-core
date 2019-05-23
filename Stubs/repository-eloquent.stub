@@ -9,8 +9,6 @@ use Prettus\Repository\Eloquent\BaseRepository;
 
 class $CLASS$Eloquent extends BaseRepository implements $CLASS$
 {
-    use RepositoryStructureTrait;
-
     /**
      * Specify Model
      *
