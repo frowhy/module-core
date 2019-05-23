@@ -24,7 +24,7 @@ return [
 
     'stubs' => [
         'enabled'      => true,
-        'path'         => base_path().'/vendor/frowhy/module-core/Stubs',
+        'path'         => base_path('vendor/frowhy/module-core/Stubs'),
         'files'        => [
             'routes/web'             => 'Routes/web.php',
             'routes/api'             => 'Routes/api.php',
