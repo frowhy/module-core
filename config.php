@@ -23,9 +23,9 @@ return [
     */
 
     'stubs' => [
-        'enabled' => true,
-        'path'    => base_path().'/modules/Core/Stubs',
-        'files'   => [
+        'enabled'      => true,
+        'path'         => base_path().'/vendor/frowhy/module-core/Stubs',
+        'files'        => [
             'routes/web'             => 'Routes/web.php',
             'routes/api'             => 'Routes/api.php',
             'routes/console'         => 'Routes/console.php',
@@ -42,11 +42,11 @@ return [
             'readme'                 => 'readme.md',
         ],
         'replacements' => [
-            'routes/web'      => ['LOWER_NAME', 'STUDLY_NAME'],
-            'routes/api'      => ['LOWER_NAME', 'STUDLY_NAME'],
-            'json'            => ['LOWER_NAME', 'STUDLY_NAME', 'MODULE_NAMESPACE'],
-            'scaffold/config' => ['STUDLY_NAME'],
-            'composer'        => [
+            'routes/web'           => ['LOWER_NAME', 'STUDLY_NAME'],
+            'routes/api'           => ['LOWER_NAME', 'STUDLY_NAME'],
+            'json'                 => ['LOWER_NAME', 'STUDLY_NAME', 'MODULE_NAMESPACE'],
+            'scaffold/config'      => ['STUDLY_NAME'],
+            'composer'             => [
                 'LOWER_NAME',
                 'STUDLY_NAME',
                 'VENDOR',
@@ -54,7 +54,7 @@ return [
                 'AUTHOR_EMAIL',
                 'MODULE_NAMESPACE',
             ],
-            'readme' => [
+            'readme'               => [
                 'LOWER_NAME',
                 'STUDLY_NAME',
             ],
@@ -62,7 +62,7 @@ return [
                 'MODULE_NAMESPACE',
                 'STUDLY_NAME',
             ],
-            'providers/service' => [
+            'providers/service'    => [
                 'MODULE_NAMESPACE',
                 'STUDLY_NAME',
             ],
@@ -71,7 +71,7 @@ return [
                 'STUDLY_NAME',
             ],
         ],
-        'gitkeep' => true,
+        'gitkeep'      => true,
     ],
     'paths' => [
         /*
@@ -183,7 +183,7 @@ return [
     | Here is the config for setting up caching feature.
     |
     */
-    'cache' => [
+    'cache'    => [
         'enabled'  => false,
         'key'      => 'laravel-modules',
         'lifetime' => 60,
@@ -204,6 +204,6 @@ return [
          *
          * @example boot|register
          */
-        'files' => 'register',
+        'files'        => 'register',
     ],
 ];
