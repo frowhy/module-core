@@ -26,9 +26,9 @@ abstract class TransformerAbstract extends BaseTransformerAbstract
     {
         $this->transform = $transform;
         $this->field = $this->fields($transform);
+        $this->filter = app(Filter::class);
         $this->parseRequestedFields();
         $this->parseExcludeFields();
-        $this->filter = app(Filter::class);
 
         return $this->field;
     }
@@ -36,7 +36,8 @@ abstract class TransformerAbstract extends BaseTransformerAbstract
     protected function parseRequestedFields()
     {
         $class = class_basename($this->transform);
-        $param = Response::param('requested_fields') ?? $this->filter->requestedFields[$class];
+
+        $param = Response::param('requested_fields') ?? Arr::get($this->filter->requestedFields, $class);
 
         if (!is_null($param)) {
 
@@ -57,7 +58,7 @@ abstract class TransformerAbstract extends BaseTransformerAbstract
     protected function parseExcludeFields()
     {
         $class = class_basename($this->transform);
-        $param = Response::param('exclude_fields') ?? $this->filter->excludeFields[$class];
+        $param = Response::param('exclude_fields') ?? Arr::get($this->filter->excludeFields, $class);
 
         if (!is_null($param)) {
 
