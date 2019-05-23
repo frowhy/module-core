@@ -15,9 +15,9 @@ class RefreshToken extends BaseAuthenticate
      * Handle an incoming request.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \Closure $next
-     *
+     * @param \Closure                 $next
      * @param $guard
+     *
      * @return mixed
      */
     public function handle($request, Closure $next, $guard)
@@ -25,6 +25,7 @@ class RefreshToken extends BaseAuthenticate
         app()->singleton('tymon.jwt.auth', function () use ($guard) {
             /** @var GuardContract $auth */
             $auth = auth($guard);
+
             return new JWTAuth(app('tymon.jwt.manager'), new Illuminate($auth), app('tymon.jwt.parser'));
         });
 

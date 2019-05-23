@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Modules\Core\Traits\Criteria;
-
 
 use Exception;
 
@@ -41,7 +39,6 @@ trait ParseFieldsSearchTrait
         $fields = $this->fieldsSearchable;
 
         if (!is_null($this->searchFields) && is_array($this->searchFields)) {
-
             $this->parseOriginalFields();
 
             $fields = [];
@@ -49,7 +46,7 @@ trait ParseFieldsSearchTrait
             foreach ($this->originalFields as $field => $condition) {
                 if (is_numeric($field)) {
                     $field = $condition;
-                    $condition = "=";
+                    $condition = '=';
                 }
                 if (in_array($field, (array) $this->searchFields)) {
                     $fields[$field] = $condition;
@@ -86,6 +83,7 @@ trait ParseFieldsSearchTrait
 
     /**
      * @param array $fields
+     *
      * @throws \Exception
      */
     protected function assertFieldsNotAccepted($fields)

@@ -6,20 +6,10 @@ use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Modules\Core\Enums\StatusCodeEnum;
-use Modules\Core\ErrorCodes\JWTErrorCode;
 use Modules\Core\Traits\Supports\HandleParseTrait;
-use Symfony\Component\HttpKernel\Exception\{
-    HttpException, UnauthorizedHttpException
-};
-use Tymon\JWTAuth\Exceptions\{
-    InvalidClaimException,
-    JWTException,
-    PayloadException,
-    TokenBlacklistedException,
-    TokenExpiredException,
-    TokenInvalidException,
-    UserNotDefinedException
-};
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class Handler extends ExceptionHandler
 {

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Modules\Core\Traits\Criteria;
-
 
 use Illuminate\Support\Str;
 
@@ -36,7 +34,6 @@ trait ParseOrderByTrait
         $this->sortedBy = !empty($this->sortedBy) ? $this->sortedBy : 'asc';
 
         if (isset($this->orderBy) && !empty($this->orderBy)) {
-
             $split = explode('|', $this->orderBy);
 
             if (count($split) > 1) {

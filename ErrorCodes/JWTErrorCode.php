@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: frowhy
  * Date: 2019-03-20
- * Time: 13:51
+ * Time: 13:51.
  */
 
 namespace Modules\Core\ErrorCodes;
-
 
 class JWTErrorCode
 {

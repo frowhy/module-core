@@ -11,13 +11,11 @@
 |
 */
 
-use Modules\Core\Console\{
-    ApiMakeCommand,
-    PresenterMakeCommand,
-    ResourceMakeCommand,
-    RepositoryMakeCommand,
-    ServiceMakeCommand
-};
+use Modules\Core\Console\ApiMakeCommand;
+use Modules\Core\Console\PresenterMakeCommand;
+use Modules\Core\Console\RepositoryMakeCommand;
+use Modules\Core\Console\ResourceMakeCommand;
+use Modules\Core\Console\ServiceMakeCommand;
 
 return [
     ResourceMakeCommand::class,

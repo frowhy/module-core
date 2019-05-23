@@ -2,11 +2,10 @@
 
 namespace Modules\Core\Providers;
 
-
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Prettus\Repository\Events\RepositoryEventBase;
@@ -115,7 +114,7 @@ class CoreServiceProvider extends ServiceProvider
      */
     public function registerFactories()
     {
-        if (!app()->/** @scrutinizer ignore-call */ environment('production')) {
+        if (!app()->/* @scrutinizer ignore-call */ environment('production')) {
             app(Factory::class)->load(__DIR__.'/../Database/factories');
         }
     }
@@ -137,7 +136,7 @@ class CoreServiceProvider extends ServiceProvider
 
     public function registerObservers()
     {
-        Event::/** @scrutinizer ignore-call */ listen(RepositoryEventBase::class, function (
+        Event::/* @scrutinizer ignore-call */ listen(RepositoryEventBase::class, function (
             RepositoryEventBase $repositoryEntityCreated
         ) {
             $model = $repositoryEntityCreated->getModel();

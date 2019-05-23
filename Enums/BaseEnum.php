@@ -1,10 +1,9 @@
 <?php
 
-
 namespace Modules\Core\Enums;
 
-
-use Illuminate\Support\{Arr, Str};
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 class BaseEnum
 {
@@ -12,6 +11,7 @@ class BaseEnum
 
     /**
      * @param int $enum
+     *
      * @return array|string|null
      */
     public static function __(int $enum)

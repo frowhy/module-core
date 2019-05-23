@@ -3,9 +3,9 @@
 namespace Modules\Core\Http\Middleware;
 
 use Illuminate\Http\Request;
-use Tymon\JWTAuth\JWTAuth;
-use Tymon\JWTAuth\Exceptions\JWTException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\JWTAuth;
 
 abstract class BaseAuthenticate
 {
@@ -19,7 +19,7 @@ abstract class BaseAuthenticate
     /**
      * Create a new BaseMiddleware instance.
      *
-     * @param  \Tymon\JWTAuth\JWTAuth $auth
+     * @param \Tymon\JWTAuth\JWTAuth $auth
      *
      * @return void
      */
@@ -31,7 +31,7 @@ abstract class BaseAuthenticate
     /**
      * Check the request for the presence of a token.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
      *
@@ -47,7 +47,7 @@ abstract class BaseAuthenticate
     /**
      * Attempt to authenticate a user via the token in the request.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @throws \Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException
      *
@@ -69,8 +69,8 @@ abstract class BaseAuthenticate
     /**
      * Set the authentication header.
      *
-     * @param  \Illuminate\Http\Response|\Illuminate\Http\JsonResponse $response
-     * @param  string|null $token
+     * @param \Illuminate\Http\Response|\Illuminate\Http\JsonResponse $response
+     * @param string|null                                             $token
      *
      * @return \Illuminate\Http\Response|\Illuminate\Http\JsonResponse
      */

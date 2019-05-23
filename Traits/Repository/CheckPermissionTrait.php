@@ -3,19 +3,18 @@
  * Created by PhpStorm.
  * User: guoliang
  * Date: 2019/3/11
- * Time: 上午10:17
+ * Time: 上午10:17.
  */
 
 namespace Modules\Core\Traits\Repository;
 
-
 trait CheckPermissionTrait
 {
     /**
-     * 检查权限
+     * 检查权限.
      *
      * @param \Illuminate\Foundation\Auth\User $user
-     * @param int $id
+     * @param int                              $id
      *
      * @return bool
      */

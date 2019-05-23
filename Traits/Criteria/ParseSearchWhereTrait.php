@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Modules\Core\Traits\Criteria;
 
 trait ParseSearchWhereTrait
@@ -33,7 +32,6 @@ trait ParseSearchWhereTrait
 
     protected function parseSearchWhere($value, $relation, $field, $condition)
     {
-
         if ($this->isFirstField || $this->modelForceAndWhere) {
             $this->parseSearchAndWhere($value, $relation, $field, $condition);
         } else {

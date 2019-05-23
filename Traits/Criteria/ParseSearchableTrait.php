@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Modules\Core\Traits\Criteria;
 
 trait ParseSearchableTrait
@@ -42,14 +41,12 @@ trait ParseSearchableTrait
         $this->search = $this->request->get(config('repository.criteria.params.search', 'search'), null);
 
         if ($this->search && is_array($this->fieldsSearchable) && count($this->fieldsSearchable)) {
-
             $this->parseFieldsSearch();
             $this->parseSearchData();
             $this->parseSearch();
             $this->parseForceAndWhere();
 
             foreach ($this->fields as $field => $condition) {
-
                 $this->getConditionField($field, $condition);
                 $value = $this->parseValue($condition, $field);
                 $relation = null;
@@ -63,7 +60,7 @@ trait ParseSearchableTrait
     {
         if (is_numeric($field)) {
             $field = $condition;
-            $condition = "=";
+            $condition = '=';
         }
     }
 

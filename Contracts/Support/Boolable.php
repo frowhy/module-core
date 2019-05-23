@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: frowhy
  * Date: 2019/1/23
- * Time: 3:16 PM
+ * Time: 3:16 PM.
  */
 
 namespace Modules\Core\Contracts\Support;

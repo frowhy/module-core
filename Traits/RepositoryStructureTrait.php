@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: frowhy
  * Date: 2017/11/27
- * Time: 下午7:20
+ * Time: 下午7:20.
  */
 
 namespace Modules\Core\Traits;
@@ -12,9 +12,8 @@ use Illuminate\Support\Str;
 use Modules\Core\Contracts\Repository\Filter;
 
 /**
- * Trait RepositoryStructureTrait
+ * Trait RepositoryStructureTrait.
  *
- * @package Modules\Core\Traits
  * @method \Prettus\Repository\Eloquent\BaseRepository pushCriteria($criteria)
  */
 trait RepositoryStructureTrait
