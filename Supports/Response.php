@@ -144,6 +144,7 @@ class Response implements Responsable, Arrayable, Renderable, Boolable
     public static function param(string $param)
     {
         $request = app('Illuminate\Http\Request');
+
         if ($request->has($param)) {
             return $request->get($param);
         } else {
@@ -152,5 +153,7 @@ class Response implements Responsable, Arrayable, Renderable, Boolable
                 return $request->header($header_param);
             }
         }
+
+        return null;
     }
 }
