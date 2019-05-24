@@ -48,8 +48,6 @@ class CoreServiceProvider extends ServiceProvider
         $this->app->register(ControllerServiceProvider::class);
         $this->app->register(ServiceServiceProvider::class);
         $this->app->register(RepositoryServiceProvider::class);
-
-        $this->app->register(RepositoryFilterContainerProvider::class);
     }
 
     /**

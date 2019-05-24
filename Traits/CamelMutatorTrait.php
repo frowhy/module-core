@@ -14,14 +14,18 @@ trait CamelMutatorTrait
 {
     public function getAttribute($key)
     {
-        $key = Str::snake($key);
+        if (!method_exists($this, $key)) {
+            $key = Str::snake($key);
+        }
 
         return parent::getAttribute($key);
     }
 
     public function setAttribute($key, $value)
     {
-        $key = Str::snake($key);
+        if (!method_exists($this, $key)) {
+            $key = Str::snake($key);
+        }
 
         return parent::setAttribute($key, $value);
     }
