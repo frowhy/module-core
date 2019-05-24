@@ -153,7 +153,5 @@ class Response implements Responsable, Arrayable, Renderable, Boolable
                 return $request->header($header_param);
             }
         }
-
-        return null;
     }
 }
