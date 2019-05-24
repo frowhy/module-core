@@ -171,7 +171,7 @@ class ServiceMakeCommand extends GeneratorCommand
         $path = Str::before($path, '.php').'I.php';
         $this->implementationHandle($path);
 
-        $path = module_path($this->getModuleName()).'/Providers/ServiceProvider.php';
+        $path = module_path($this->getModuleName()).'/Providers/ServiceServiceProvider.php';
         $this->bindingsHandle($path);
     }
 
