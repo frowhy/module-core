@@ -13,9 +13,9 @@ trait ResponseHandleTrait
     /**
      * Response Handle.
      *
-     * @param int $statusCode
+     * @param int         $statusCode
      * @param             $data
-     * @param bool $overwrite
+     * @param bool        $overwrite
      * @param string|null $message
      *
      * @return \Modules\Core\Supports\Response
