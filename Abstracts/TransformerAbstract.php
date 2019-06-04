@@ -8,7 +8,6 @@
 
 namespace Modules\Core\Abstracts;
 
-
 use League\Fractal\TransformerAbstract as BaseTransformerAbstract;
 
 abstract class TransformerAbstract extends BaseTransformerAbstract

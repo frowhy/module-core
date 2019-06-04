@@ -27,7 +27,7 @@ trait ParseForceAndWhereTrait
 
     protected function parseForceAndWhere()
     {
-        $this->searchJoin = $this->request->get(config('repository.criteria.params.searchJoin', 'searchJoin'), null);
+        $this->searchJoin = $this->request->get(config('repository.criteria.params.searchJoin', 'searchJoin'), 'and');
 
         $this->modelForceAndWhere = strtolower($this->searchJoin) === 'and';
     }
