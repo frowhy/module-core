@@ -27,7 +27,7 @@ trait CheckPermissionTrait
     {
         $result = $this->repository->checkPermission($user, $id);
         if (!$result) {
-            return Response::handleForbidden(__('core::default.permission_denied'));
+            return Response::handleForbidden((string) __('core::default.permission_denied'));
         }
 
         return Response::handleOk();
