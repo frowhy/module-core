@@ -13,8 +13,8 @@ trait ResponseHandleTrait
     /**
      * Response Handle.
      *
-     * @param int $statusCode
-     * @param $data
+     * @param int         $statusCode
+     * @param             $data
      * @param bool        $overwrite
      * @param string|null $message
      *
@@ -49,7 +49,7 @@ trait ResponseHandleTrait
     /**
      * Response Ok.
      *
-     * @param $data
+     * @param             $data
      * @param bool        $overwrite
      * @param string|null $message
      *
@@ -63,7 +63,7 @@ trait ResponseHandleTrait
     /**
      * Response Created.
      *
-     * @param $data
+     * @param             $data
      * @param bool        $overwrite
      * @param string|null $message
      *
@@ -77,7 +77,7 @@ trait ResponseHandleTrait
     /**
      * Response Accepted.
      *
-     * @param $data
+     * @param             $data
      * @param bool        $overwrite
      * @param string|null $message
      *
@@ -91,7 +91,7 @@ trait ResponseHandleTrait
     /**
      * Response NoContent.
      *
-     * @param $data
+     * @param             $data
      * @param bool        $overwrite
      * @param string|null $message
      *
@@ -105,7 +105,7 @@ trait ResponseHandleTrait
     /**
      * Response ResetContent.
      *
-     * @param $data
+     * @param             $data
      * @param bool        $overwrite
      * @param string|null $message
      *
@@ -119,13 +119,13 @@ trait ResponseHandleTrait
     /**
      * Response SeeOther.
      *
-     * @param $data
+     * @param             $data
      * @param bool        $overwrite
      * @param string|null $message
      *
      * @return \Modules\Core\Supports\Response
      */
-    public static function handleSeeOther($data = null, bool $overwrite = false, string $message = null): Response
+    public static function handleSeeOther(string $message = null, $data = null, bool $overwrite = false): Response
     {
         return self::handle(StatusCodeEnum::HTTP_SEE_OTHER, $data, $overwrite, $message);
     }
@@ -133,13 +133,13 @@ trait ResponseHandleTrait
     /**
      * Response BadRequest.
      *
-     * @param $data
+     * @param             $data
      * @param bool        $overwrite
      * @param string|null $message
      *
      * @return \Modules\Core\Supports\Response
      */
-    public static function handleBadRequest($data = null, bool $overwrite = false, string $message = null): Response
+    public static function handleBadRequest(string $message = null, $data = null, bool $overwrite = false): Response
     {
         return self::handle(StatusCodeEnum::HTTP_BAD_REQUEST, $data, $overwrite, $message);
     }
@@ -147,13 +147,13 @@ trait ResponseHandleTrait
     /**
      * Response Unauthorized.
      *
-     * @param $data
+     * @param             $data
      * @param bool        $overwrite
      * @param string|null $message
      *
      * @return \Modules\Core\Supports\Response
      */
-    public static function handleUnauthorized($data = null, bool $overwrite = false, string $message = null): Response
+    public static function handleUnauthorized(string $message = null, $data = null, bool $overwrite = false): Response
     {
         return self::handle(StatusCodeEnum::HTTP_UNAUTHORIZED, $data, $overwrite, $message);
     }
@@ -161,16 +161,16 @@ trait ResponseHandleTrait
     /**
      * Response PaymentRequired.
      *
-     * @param $data
+     * @param             $data
      * @param bool        $overwrite
      * @param string|null $message
      *
      * @return \Modules\Core\Supports\Response
      */
     public static function handlePaymentRequired(
+        string $message = null,
         $data = null,
-        bool $overwrite = false,
-        string $message = null
+        bool $overwrite = false
     ): Response {
         return self::handle(StatusCodeEnum::HTTP_PAYMENT_REQUIRED, $data, $overwrite, $message);
     }
@@ -178,13 +178,13 @@ trait ResponseHandleTrait
     /**
      * Response Forbidden.
      *
-     * @param $data
+     * @param             $data
      * @param bool        $overwrite
      * @param string|null $message
      *
      * @return \Modules\Core\Supports\Response
      */
-    public static function handleForbidden($data = null, bool $overwrite = false, string $message = null): Response
+    public static function handleForbidden(string $message = null, $data = null, bool $overwrite = false): Response
     {
         return self::handle(StatusCodeEnum::HTTP_PAYMENT_REQUIRED, $data, $overwrite, $message);
     }
@@ -192,13 +192,13 @@ trait ResponseHandleTrait
     /**
      * Response NotFound.
      *
-     * @param $data
+     * @param             $data
      * @param bool        $overwrite
      * @param string|null $message
      *
      * @return \Modules\Core\Supports\Response
      */
-    public static function handleNotFound($data = null, bool $overwrite = false, string $message = null): Response
+    public static function handleNotFound(string $message = null, $data = null, bool $overwrite = false): Response
     {
         return self::handle(StatusCodeEnum::HTTP_NOT_FOUND, $data, $overwrite, $message);
     }
@@ -206,16 +206,16 @@ trait ResponseHandleTrait
     /**
      * Response UnprocessableEntity.
      *
-     * @param $data
+     * @param             $data
      * @param bool        $overwrite
      * @param string|null $message
      *
      * @return \Modules\Core\Supports\Response
      */
     public static function handleUnprocessableEntity(
+        string $message = null,
         $data = null,
-        bool $overwrite = false,
-        string $message = null
+        bool $overwrite = false
     ): Response {
         return self::handle(StatusCodeEnum::HTTP_UNPROCESSABLE_ENTITY, $data, $overwrite, $message);
     }
@@ -223,13 +223,13 @@ trait ResponseHandleTrait
     /**
      * Response Locked.
      *
-     * @param $data
+     * @param             $data
      * @param bool        $overwrite
      * @param string|null $message
      *
      * @return \Modules\Core\Supports\Response
      */
-    public static function handleLocked($data = null, bool $overwrite = false, string $message = null): Response
+    public static function handleLocked(string $message = null, $data = null, bool $overwrite = false): Response
     {
         return self::handle(StatusCodeEnum::HTTP_LOCKED, $data, $overwrite, $message);
     }
@@ -237,16 +237,16 @@ trait ResponseHandleTrait
     /**
      * Response TooManyRequests.
      *
-     * @param $data
+     * @param             $data
      * @param bool        $overwrite
      * @param string|null $message
      *
      * @return \Modules\Core\Supports\Response
      */
     public static function handleTooManyRequests(
+        string $message = null,
         $data = null,
-        bool $overwrite = false,
-        string $message = null
+        bool $overwrite = false
     ): Response {
         return self::handle(StatusCodeEnum::HTTP_TOO_MANY_REQUESTS, $data, $overwrite, $message);
     }
@@ -254,16 +254,16 @@ trait ResponseHandleTrait
     /**
      * Response InternalServerError.
      *
-     * @param $data
+     * @param             $data
      * @param bool        $overwrite
      * @param string|null $message
      *
      * @return \Modules\Core\Supports\Response
      */
     public static function handleInternalServerError(
+        string $message = null,
         $data = null,
-        bool $overwrite = false,
-        string $message = null
+        bool $overwrite = false
     ): Response {
         return self::handle(StatusCodeEnum::HTTP_INTERNAL_SERVER_ERROR, $data, $overwrite, $message);
     }
@@ -271,13 +271,13 @@ trait ResponseHandleTrait
     /**
      * Response NotImplemented.
      *
-     * @param $data
+     * @param             $data
      * @param bool        $overwrite
      * @param string|null $message
      *
      * @return \Modules\Core\Supports\Response
      */
-    public static function handleNotImplemented($data = null, bool $overwrite = false, string $message = null): Response
+    public static function handleNotImplemented(string $message = null, $data = null, bool $overwrite = false): Response
     {
         return self::handle(StatusCodeEnum::HTTP_NOT_IMPLEMENTED, $data, $overwrite, $message);
     }

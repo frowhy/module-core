@@ -7,5 +7,6 @@
  */
 
 return [
-    'permission_denied' => '没有权限；拒绝访问',
+    'permission_denied'           => '没有权限；拒绝访问',
+    'translator_key_is_not_found' => '找不到翻译字段',
 ];

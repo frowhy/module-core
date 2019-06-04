@@ -141,6 +141,11 @@ class Response implements Responsable, Arrayable, Renderable, Boolable
         return new self($response);
     }
 
+    /**
+     * @param string $param
+     *
+     * @return mixed|void
+     */
     public static function param(string $param)
     {
         $request = app('Illuminate\Http\Request');
