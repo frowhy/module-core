@@ -141,6 +141,11 @@ class Response implements Responsable, Arrayable, Renderable, Boolable
         return new self($response);
     }
 
+    /**
+     * @param string $param
+     *
+     * @return mixed|void
+     */
     public static function param(string $param)
     {
         $request = app('Illuminate\Http\Request');
@@ -151,8 +156,6 @@ class Response implements Responsable, Arrayable, Renderable, Boolable
             $header_param = Str::title(Str::kebab(Str::studly($param)));
             if ($request->hasHeader($header_param)) {
                 return $request->header($header_param);
-            } else {
-                return null;
             }
         }
     }
