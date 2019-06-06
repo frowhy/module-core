@@ -26,6 +26,8 @@ trait ParseSearchOrRelationClosureTrait
     protected $searchJoin;
     protected $acceptedConditions;
     protected $originalFields;
+    protected $crossMin;
+    protected $crossMax;
 
     protected function parseSearchOrRelationClosure($value, $relation, $field, $condition)
     {
@@ -40,18 +42,18 @@ trait ParseSearchOrRelationClosureTrait
                 case 'cross':
                     $query->where(function (Builder $query) use ($field, $value) {
                         $query->where(function (Builder $query) use ($field, $value) {
-                            $query->where("{$field}_min", '<=', $value[0])
-                                  ->where("{$field}_max", '>=', $value[1]);
+                            $query->where("{$field}_{$this->crossMin}", '<=', (int) $value[0])
+                                  ->where("{$field}_{$this->crossMax}", '>=', (int) $value[1]);
                         })->orWhere(function (Builder $query) use ($field, $value) {
-                            $query->where("{$field}_min", '<=', $value[0])
-                                  ->where("{$field}_max", '>=', $value[0]);
+                            $query->where("{$field}_{$this->crossMin}", '<=', (int) $value[0])
+                                  ->where("{$field}_{$this->crossMax}", '>=', (int) $value[0]);
                         })->orWhere(function (Builder $query) use ($field, $value) {
-                            $query->where("{$field}_min", '>=', $value[0])
-                                  ->where("{$field}_max", '<=', $value[1]);
+                            $query->where("{$field}_{$this->crossMin}", '>=', (int) $value[0])
+                                  ->where("{$field}_{$this->crossMax}", '<=', (int) $value[1]);
                         })->orWhere(function (Builder $query) use ($field, $value) {
-                            $query->where("{$field}_min", '>=', $value[0])
-                                  ->where("{$field}_max", '>=', $value[1])
-                                  ->where("{$field}_min", '<=', $value[1]);
+                            $query->where("{$field}_{$this->crossMin}", '>=', (int) $value[0])
+                                  ->where("{$field}_{$this->crossMax}", '>=', (int) $value[1])
+                                  ->where("{$field}_{$this->crossMin}", '<=', (int) $value[1]);
                         });
                     });
                     break;
