@@ -24,6 +24,8 @@ trait ParseValueTrait
     protected $searchJoin;
     protected $acceptedConditions;
     protected $originalFields;
+    protected $crossMin;
+    protected $crossMax;
 
     protected function parseValue($condition, $field)
     {
