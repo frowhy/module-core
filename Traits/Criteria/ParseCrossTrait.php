@@ -2,9 +2,7 @@
 
 namespace Modules\Core\Traits\Criteria;
 
-use Exception;
-
-trait ParseSearchDataTrait
+trait ParseCrossTrait
 {
     /** @var \Illuminate\Http\Request $request */
     protected $request;
@@ -29,23 +27,9 @@ trait ParseSearchDataTrait
     protected $crossMin;
     protected $crossMax;
 
-    protected function parseSearchData()
+    protected function parseCross()
     {
-        $searchData = [];
-
-        if (stripos($this->search, ':')) {
-            $fields = explode(';', $this->search);
-
-            foreach ($fields as $row) {
-                try {
-                    list($field, $value) = explode(':', $row);
-                    $searchData[$field] = $value;
-                } catch (Exception $e) {
-                    //Surround offset error
-                }
-            }
-        }
-
-        $this->searchData = $searchData;
+        $this->crossMin = $this->request->get(config('repository.criteria.cross.min', 'min'));
+        $this->crossMax = $this->request->get(config('repository.criteria.cross.max', 'max'));
     }
 }

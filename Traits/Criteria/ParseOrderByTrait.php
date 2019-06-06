@@ -26,6 +26,8 @@ trait ParseOrderByTrait
     protected $searchJoin;
     protected $acceptedConditions;
     protected $originalFields;
+    protected $crossMin;
+    protected $crossMax;
 
     protected function parseOrderBy()
     {

@@ -9,6 +9,7 @@
 namespace Modules\Core\Criteria;
 
 use Illuminate\Http\Request;
+use Modules\Core\Traits\Criteria\ParseCrossTrait;
 use Modules\Core\Traits\Criteria\ParseFilterTrait;
 use Modules\Core\Traits\Criteria\ParseOrderByTrait;
 use Modules\Core\Traits\Criteria\ParseSearchableTrait;
@@ -38,11 +39,14 @@ class RequestCriteria implements CriteriaInterface
     protected $searchJoin;
     protected $acceptedConditions;
     protected $originalFields;
+    protected $crossMin;
+    protected $crossMax;
 
     use ParseSearchableTrait;
     use ParseOrderByTrait;
     use ParseFilterTrait;
     use ParseWithTrait;
+    use ParseCrossTrait;
 
     public function __construct(Request $request)
     {
@@ -63,6 +67,7 @@ class RequestCriteria implements CriteriaInterface
         $this->model = $model;
         $this->repository = $repository;
 
+        $this->parseCross();
         $this->parseSearchable();
         $this->parseOrderBy();
         $this->parseFilter();
