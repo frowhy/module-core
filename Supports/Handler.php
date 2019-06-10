@@ -71,7 +71,9 @@ class Handler extends ExceptionHandler
     protected function parseUnauthorizedHttpException(Exception $exception)
     {
         if ($exception instanceof UnauthorizedHttpException) {
-            $exception = new JWTException($exception->getMessage(), $exception->getCode(), $exception->getPrevious());
+            if (method_exists($exception, 'getPrevious') && $exception->getPrevious() instanceof JWTException) {
+                $exception = $exception->getPrevious();
+            }
         }
 
         return $exception;
