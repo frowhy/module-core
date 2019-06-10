@@ -15,6 +15,15 @@ use Tymon\JWTAuth\Exceptions\UserNotDefinedException;
 
 trait HandleParseTrait
 {
+    protected function parseTokenInvalidException(array $response, Exception $exception)
+    {
+        if ($exception instanceof TokenInvalidException) {
+            $response['meta'][Handler::ERROR_CODE] = JWTErrorCode::TOKEN_INVALID;
+        }
+
+        return $response;
+    }
+
     protected function parseInvalidClaimException(array $response, Exception $exception)
     {
         if ($exception instanceof InvalidClaimException) {
@@ -45,20 +54,12 @@ trait HandleParseTrait
     protected function parseTokenExpiredException(array $response, Exception $exception)
     {
         if ($exception instanceof TokenExpiredException) {
+            dd(123);
             if ('Token has expired and can no longer be refreshed' === $exception->getMessage()) {
                 $response['meta'][Handler::ERROR_CODE] = JWTErrorCode::CAN_NOT_REFRESHED;
             } else {
                 $response['meta'][Handler::ERROR_CODE] = JWTErrorCode::TOKEN_EXPIRED;
             }
-        }
-
-        return $response;
-    }
-
-    protected function parseTokenInvalidException(array $response, Exception $exception)
-    {
-        if ($exception instanceof TokenInvalidException) {
-            $response['meta'][Handler::ERROR_CODE] = JWTErrorCode::TOKEN_INVALID;
         }
 
         return $response;
@@ -79,11 +80,11 @@ trait HandleParseTrait
         $response['meta'][Handler::STATUS_CODE] = StatusCodeEnum::HTTP_UNAUTHORIZED;
         $response['meta'][Handler::MESSAGE] = $exception->getMessage();
 
+        $response = $this->parseTokenInvalidException($response, $exception);
         $response = $this->parseInvalidClaimException($response, $exception);
         $response = $this->parsePayloadException($response, $exception);
         $response = $this->parseTokenBlacklistedException($response, $exception);
         $response = $this->parseTokenExpiredException($response, $exception);
-        $response = $this->parseTokenInvalidException($response, $exception);
         $response = $this->parseUserNotDefinedException($response, $exception);
 
         return $response;
