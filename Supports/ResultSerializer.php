@@ -31,13 +31,4 @@ class ResultSerializer extends ArraySerializer
     {
         return $data;
     }
-
-    /**
-     * Serialize null resource.
-     *
-     * @return array
-     */
-    public function null()
-    {
-    }
 }
