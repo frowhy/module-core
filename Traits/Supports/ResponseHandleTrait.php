@@ -32,6 +32,7 @@ trait ResponseHandleTrait
             $_data = self::parseData($data);
         }
 
+        $_data = self::parseDataMeta($_data);
         $_meta = self::parseMeta($data);
 
         $_meta = Arr::prepend($_meta, $statusCode, 'status_code');

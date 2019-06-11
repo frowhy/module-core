@@ -17,9 +17,6 @@ trait ResponseParseTrait
 
     protected static function parseData($data)
     {
-        if (is_array($data) && Arr::has($data, 'meta')) {
-            Arr::forget($data, 'meta');
-        }
         if (is_array($data) && Arr::has($data, 'data')) {
             return Arr::get($data, 'data');
         } else {
@@ -28,6 +25,15 @@ trait ResponseParseTrait
             } else {
                 return $data;
             }
+        }
+    }
+
+    protected static function parseDataMeta($data)
+    {
+        if (is_array($data) && Arr::has($data, 'meta')) {
+            return Arr::except($data, 'meta');
+        } else {
+            return $data;
         }
     }
 }
