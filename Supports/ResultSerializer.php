@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Modules\Core\Supports;
-
 
 use League\Fractal\Serializer\ArraySerializer;
 
@@ -41,6 +39,5 @@ class ResultSerializer extends ArraySerializer
      */
     public function null()
     {
-        return null;
     }
 }
