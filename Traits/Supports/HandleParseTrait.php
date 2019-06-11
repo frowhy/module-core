@@ -54,7 +54,6 @@ trait HandleParseTrait
     protected function parseTokenExpiredException(array $response, Exception $exception)
     {
         if ($exception instanceof TokenExpiredException) {
-            dd(123);
             if ('Token has expired and can no longer be refreshed' === $exception->getMessage()) {
                 $response['meta'][Handler::ERROR_CODE] = JWTErrorCode::CAN_NOT_REFRESHED;
             } else {
