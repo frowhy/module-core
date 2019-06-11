@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Modules\Core\Supports;
-
 
 use League\Fractal\Serializer\ArraySerializer;
 
