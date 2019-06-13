@@ -8,8 +8,9 @@
 
 namespace Modules\Core\Criteria;
 
+use Closure;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Modules\Core\Traits\Criteria\ParseCrossTrait;
 use Modules\Core\Traits\Criteria\ParseFilterTrait;
 use Modules\Core\Traits\Criteria\ParseOrderByTrait;
 use Modules\Core\Traits\Criteria\ParseSearchableTrait;
@@ -39,19 +40,21 @@ class RequestCriteria implements CriteriaInterface
     protected $searchJoin;
     protected $acceptedConditions;
     protected $originalFields;
-    protected $crossMin;
-    protected $crossMax;
+    protected $searchClosures;
 
     use ParseSearchableTrait;
     use ParseOrderByTrait;
     use ParseFilterTrait;
     use ParseWithTrait;
-    use ParseCrossTrait;
 
     public function __construct(Request $request)
     {
         $this->request = $request;
         $this->isFirstField = true;
+
+        $this->setCrossSearchClosure();
+        $this->setBetweenSearchClosure();
+        $this->setInSearchClosure();
     }
 
     /**
@@ -67,12 +70,53 @@ class RequestCriteria implements CriteriaInterface
         $this->model = $model;
         $this->repository = $repository;
 
-        $this->parseCross();
         $this->parseSearchable();
         $this->parseOrderBy();
         $this->parseFilter();
         $this->parseWith();
 
         return $this->model;
+    }
+
+    public function setSearchClosure(string $condition, Closure $closure)
+    {
+        $this->searchClosures[$condition] = $closure;
+    }
+
+    protected function setCrossSearchClosure()
+    {
+        $crossMin = config('repository.criteria.cross.min', 'min');
+        $crossMax = config('repository.criteria.cross.min', 'max');
+
+        $this->setSearchClosure('cross', function (...$attributes) use ($crossMin, $crossMax) {
+            $attributes[0]->where(function (Builder $query) use ($attributes, $crossMin, $crossMax) {
+                $query->where("{$attributes[2]}_{$crossMin}", '<=', (int) $attributes[3][0])
+                      ->where("{$attributes[2]}_{$crossMax}", '>=', (int) $attributes[3][1]);
+            })->orWhere(function (Builder $query) use ($attributes, $crossMin, $crossMax) {
+                $query->where("{$attributes[2]}_{$crossMin}", '<=', (int) $attributes[3][0])
+                      ->where("{$attributes[2]}_{$crossMax}", '>=', (int) $attributes[3][0]);
+            })->orWhere(function (Builder $query) use ($attributes, $crossMin, $crossMax) {
+                $query->where("{$attributes[2]}_{$crossMin}", '>=', (int) $attributes[3][0])
+                      ->where("{$attributes[2]}_{$crossMax}", '<=', (int) $attributes[3][1]);
+            })->orWhere(function (Builder $query) use ($attributes, $crossMin, $crossMax) {
+                $query->where("{$attributes[2]}_{$crossMin}", '>=', (int) $attributes[3][0])
+                      ->where("{$attributes[2]}_{$crossMax}", '>=', (int) $attributes[3][1])
+                      ->where("{$attributes[2]}_{$crossMin}", '<=', (int) $attributes[3][1]);
+            });
+        });
+    }
+
+    protected function setBetweenSearchClosure()
+    {
+        $this->setSearchClosure('between', function (...$attributes) {
+            $attributes[0]->whereBetween($attributes[2], $attributes[3]);
+        });
+    }
+
+    protected function setInSearchClosure()
+    {
+        $this->setSearchClosure('in', function (...$attributes) {
+            $attributes[0]->whereIn($attributes[2], $attributes[3]);
+        });
     }
 }

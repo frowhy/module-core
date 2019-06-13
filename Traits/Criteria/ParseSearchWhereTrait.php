@@ -2,6 +2,9 @@
 
 namespace Modules\Core\Traits\Criteria;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
+
 trait ParseSearchWhereTrait
 {
     /** @var \Illuminate\Http\Request $request */
@@ -24,13 +27,7 @@ trait ParseSearchWhereTrait
     protected $searchJoin;
     protected $acceptedConditions;
     protected $originalFields;
-    protected $crossMin;
-    protected $crossMax;
-
-    use ParseSearchAndClosureTrait;
-    use ParseSearchAndRelationClosureTrait;
-    use ParseSearchOrClosureTrait;
-    use ParseSearchOrRelationClosureTrait;
+    protected $searchClosures;
 
     protected function parseSearchWhere($value, $relation, $field, $condition)
     {
@@ -62,5 +59,49 @@ trait ParseSearchWhereTrait
             }
             $this->isFirstField = false;
         }
+    }
+
+    protected function parseSearchAndRelationClosure($value, $relation, $field, $condition)
+    {
+        $this->model = $this->model->whereHas($relation, function (Builder $query) use ($condition, $field, $value) {
+            if (is_array($this->searchClosures) && Arr::has($this->searchClosures, $condition)) {
+                $this->searchClosures[$condition]($query, $condition, $field, $value);
+            } else {
+                $query->where($field, $condition, $value);
+            }
+        });
+    }
+
+    protected function parseSearchAndClosure($value, $field, $condition)
+    {
+        $this->model = $this->model->where(function (Builder $query) use ($condition, $field, $value) {
+            if (is_array($this->searchClosures) && Arr::has($this->searchClosures, $condition)) {
+                $this->searchClosures[$condition]($query, $condition, $field, $value);
+            } else {
+                $query->where($field, $condition, $value);
+            }
+        });
+    }
+
+    protected function parseSearchOrClosure($value, $field, $condition)
+    {
+        $this->model = $this->model->orWhere(function (Builder $query) use ($condition, $field, $value) {
+            if (is_array($this->searchClosures) && Arr::has($this->searchClosures, $condition)) {
+                $this->searchClosures[$condition]($query, $condition, $field, $value);
+            } else {
+                $query->where($field, $condition, $value);
+            }
+        });
+    }
+
+    protected function parseSearchOrRelationClosure($value, $relation, $field, $condition)
+    {
+        $this->model = $this->model->orWhereHas($relation, function (Builder $query) use ($field, $condition, $value) {
+            if (is_array($this->searchClosures) && Arr::has($this->searchClosures, $condition)) {
+                $this->searchClosures[$condition]($query, $condition, $field, $value);
+            } else {
+                $query->where($field, $condition, $value);
+            }
+        });
     }
 }
