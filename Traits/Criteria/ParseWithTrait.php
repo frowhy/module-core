@@ -26,6 +26,7 @@ trait ParseWithTrait
     protected $originalFields;
     protected $crossMin;
     protected $crossMax;
+    protected $searchClosures;
 
     protected function parseWith()
     {

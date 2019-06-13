@@ -8,6 +8,8 @@
 
 namespace Modules\Core\Criteria;
 
+use Closure;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Modules\Core\Traits\Criteria\ParseCrossTrait;
 use Modules\Core\Traits\Criteria\ParseFilterTrait;
@@ -41,6 +43,7 @@ class RequestCriteria implements CriteriaInterface
     protected $originalFields;
     protected $crossMin;
     protected $crossMax;
+    protected $searchClosures;
 
     use ParseSearchableTrait;
     use ParseOrderByTrait;
@@ -74,5 +77,50 @@ class RequestCriteria implements CriteriaInterface
         $this->parseWith();
 
         return $this->model;
+    }
+
+    public function setSearchClosure(string $condition, Closure $closure)
+    {
+        $this->searchClosures[$condition] = $closure;
+    }
+
+    protected function setCrossSearchClosure()
+    {
+        $this->setSearchClosure('cross', function (Builder $query, $condition, $field, $value, $modelTableName = null) {
+            $query->where(function (Builder $query) use ($field, $value) {
+                $query->where("{$field}_{$this->crossMin}", '<=', (int) $value[0])
+                      ->where("{$field}_{$this->crossMax}", '>=', (int) $value[1]);
+            })->orWhere(function (Builder $query) use ($field, $value) {
+                $query->where("{$field}_{$this->crossMin}", '<=', (int) $value[0])
+                      ->where("{$field}_{$this->crossMax}", '>=', (int) $value[0]);
+            })->orWhere(function (Builder $query) use ($field, $value) {
+                $query->where("{$field}_{$this->crossMin}", '>=', (int) $value[0])
+                      ->where("{$field}_{$this->crossMax}", '<=', (int) $value[1]);
+            })->orWhere(function (Builder $query) use ($field, $value) {
+                $query->where("{$field}_{$this->crossMin}", '>=', (int) $value[0])
+                      ->where("{$field}_{$this->crossMax}", '>=', (int) $value[1])
+                      ->where("{$field}_{$this->crossMin}", '<=', (int) $value[1]);
+            });
+        });
+    }
+
+    protected function setBetweenSearchClosure()
+    {
+        $this->setSearchClosure('between', function (
+            Builder $query,
+            $condition,
+            $field,
+            $value,
+            $modelTableName = null
+        ) {
+            $query->whereBetween($field, $value);
+        });
+    }
+
+    protected function setInSearchClosure()
+    {
+        $this->setSearchClosure('in', function (Builder $query, $condition, $field, $value, $modelTableName = null) {
+            $query->whereIn($field, $value);
+        });
     }
 }

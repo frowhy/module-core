@@ -3,6 +3,7 @@
 namespace Modules\Core\Traits\Criteria;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 
 trait ParseSearchAndRelationClosureTrait
 {
@@ -28,39 +29,17 @@ trait ParseSearchAndRelationClosureTrait
     protected $originalFields;
     protected $crossMin;
     protected $crossMax;
+    protected $searchClosures;
 
     protected function parseSearchAndRelationClosure($value, $relation, $field, $condition)
     {
-        $this->model =
-            $this->model->whereHas($relation, function (Builder $query) use ($field, $condition, $value) {
-                switch ($condition) {
-                    case 'in':
-                        $query->whereIn($field, $value);
-                        break;
-                    case 'between':
-                        $query->whereBetween($field, $value);
-                        break;
-                    case 'cross':
-                        $query->where(function (Builder $query) use ($field, $value) {
-                            $query->where(function (Builder $query) use ($field, $value) {
-                                $query->where("{$field}_{$this->crossMin}", '<=', (int) $value[0])
-                                      ->where("{$field}_{$this->crossMax}", '>=', (int) $value[1]);
-                            })->orWhere(function (Builder $query) use ($field, $value) {
-                                $query->where("{$field}_{$this->crossMin}", '<=', (int) $value[0])
-                                      ->where("{$field}_{$this->crossMax}", '>=', (int) $value[0]);
-                            })->orWhere(function (Builder $query) use ($field, $value) {
-                                $query->where("{$field}_{$this->crossMin}", '>=', (int) $value[0])
-                                      ->where("{$field}_{$this->crossMax}", '<=', (int) $value[1]);
-                            })->orWhere(function (Builder $query) use ($field, $value) {
-                                $query->where("{$field}_{$this->crossMin}", '>=', (int) $value[0])
-                                      ->where("{$field}_{$this->crossMax}", '>=', (int) $value[1])
-                                      ->where("{$field}_{$this->crossMin}", '<=', (int) $value[1]);
-                            });
-                        });
-                        break;
-                    default:
-                        $query->where($field, $condition, $value);
-                }
-            });
+        $this->model = $this->model->whereHas($relation, function (Builder $query) use ($condition, $field, $value) {
+
+            if (is_array($this->searchClosures) && Arr::has($this->searchClosures, $condition)) {
+                $this->searchClosures[$condition]($query, $condition, $field, $value);
+            } else {
+                $query->where($field, $condition, $value);
+            }
+        });
     }
 }

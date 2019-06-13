@@ -3,6 +3,7 @@
 namespace Modules\Core\Traits\Criteria;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 
 trait ParseSearchAndClosureTrait
 {
@@ -28,36 +29,17 @@ trait ParseSearchAndClosureTrait
     protected $originalFields;
     protected $crossMin;
     protected $crossMax;
+    protected $searchClosures;
 
     protected function parseSearchAndClosure($value, $field, $condition)
     {
-        switch ($condition) {
-            case 'in':
-                $this->model = $this->model->whereIn($field, $value);
-                break;
-            case 'between':
-                $this->model = $this->model->whereBetween($field, $value);
-                break;
-            case 'cross':
-                $this->model = $this->model->where(function (Builder $query) use ($field, $value) {
-                    $query->where(function (Builder $query) use ($field, $value) {
-                        $query->where("{$field}_{$this->crossMin}", '<=', (int) $value[0])
-                              ->where("{$field}_{$this->crossMax}", '>=', (int) $value[1]);
-                    })->orWhere(function (Builder $query) use ($field, $value) {
-                        $query->where("{$field}_{$this->crossMin}", '<=', (int) $value[0])
-                              ->where("{$field}_{$this->crossMax}", '>=', (int) $value[0]);
-                    })->orWhere(function (Builder $query) use ($field, $value) {
-                        $query->where("{$field}_{$this->crossMin}", '>=', (int) $value[0])
-                              ->where("{$field}_{$this->crossMax}", '<=', (int) $value[1]);
-                    })->orWhere(function (Builder $query) use ($field, $value) {
-                        $query->where("{$field}_{$this->crossMin}", '>=', (int) $value[0])
-                              ->where("{$field}_{$this->crossMax}", '>=', (int) $value[1])
-                              ->where("{$field}_{$this->crossMin}", '<=', (int) $value[1]);
-                    });
-                });
-                break;
-            default:
-                $this->model = $this->model->where($field, $condition, $value);
-        }
+        $this->model = $this->model->where(function (Builder $query) use ($condition, $field, $value) {
+
+            if (is_array($this->searchClosures) && Arr::has($this->searchClosures, $condition)) {
+                $this->searchClosures[$condition]($query, $condition, $field, $value);
+            } else {
+                $query->where($field, $condition, $value);
+            }
+        });
     }
 }

@@ -26,6 +26,7 @@ trait ParseSearchWhereTrait
     protected $originalFields;
     protected $crossMin;
     protected $crossMax;
+    protected $searchClosures;
 
     use ParseSearchAndClosureTrait;
     use ParseSearchAndRelationClosureTrait;

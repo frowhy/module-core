@@ -3,6 +3,7 @@
 namespace Modules\Core\Traits\Criteria;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 
 trait ParseSearchOrClosureTrait
 {
@@ -28,37 +29,18 @@ trait ParseSearchOrClosureTrait
     protected $originalFields;
     protected $crossMin;
     protected $crossMax;
+    protected $searchClosures;
 
     protected function parseSearchOrClosure($value, $field, $condition)
     {
-        $modelTableName = $this->model->getModel()->getTable();
-        switch ($condition) {
-            case 'in':
-                $this->model = $this->model->orWhereIn($modelTableName.'.'.$field, $value);
-                break;
-            case 'between':
-                $this->model = $this->model->orWhereBetween($modelTableName.'.'.$field, $value);
-                break;
-            case 'cross':
-                $this->model = $this->model->orWhere(function (Builder $query) use ($field, $value) {
-                    $query->where(function (Builder $query) use ($field, $value) {
-                        $query->where("{$field}_{$this->crossMin}", '<=', (int) $value[0])
-                              ->where("{$field}_{$this->crossMax}", '>=', (int) $value[1]);
-                    })->orWhere(function (Builder $query) use ($field, $value) {
-                        $query->where("{$field}_{$this->crossMin}", '<=', (int) $value[0])
-                              ->where("{$field}_{$this->crossMax}", '>=', (int) $value[0]);
-                    })->orWhere(function (Builder $query) use ($field, $value) {
-                        $query->where("{$field}_{$this->crossMin}", '>=', (int) $value[0])
-                              ->where("{$field}_{$this->crossMax}", '<=', (int) $value[1]);
-                    })->orWhere(function (Builder $query) use ($field, $value) {
-                        $query->where("{$field}_{$this->crossMin}", '>=', (int) $value[0])
-                              ->where("{$field}_{$this->crossMax}", '>=', (int) $value[1])
-                              ->where("{$field}_{$this->crossMin}", '<=', (int) $value[1]);
-                    });
-                });
-                break;
-            default:
-                $this->model = $this->model->orWhere($modelTableName.'.'.$field, $condition, $value);
-        }
+        $this->model = $this->model->orWhere(function (Builder $query) use ($condition, $field, $value) {
+            $modelTableName = $this->model->getModel()->getTable();
+
+            if (is_array($this->searchClosures) && Arr::has($this->searchClosures, $condition)) {
+                $this->searchClosures[$condition]($query, $condition, $field, $value, $modelTableName);
+            } else {
+                $query->where($modelTableName.'.'.$field, $condition, $value);
+            }
+        });
     }
 }

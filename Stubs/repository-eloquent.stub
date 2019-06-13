@@ -2,7 +2,6 @@
 
 namespace $NAMESPACE$;
 
-use Modules\Core\Traits\RepositoryStructureTrait;
 use $ROOT_NAMESPACE$\Entities\$MODEL$;
 use $ROOT_NAMESPACE$\Presenters\$MODEL$Presenter;
 use Prettus\Repository\Eloquent\BaseRepository;

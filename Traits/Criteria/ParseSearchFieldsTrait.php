@@ -26,6 +26,7 @@ trait ParseSearchFieldsTrait
     protected $originalFields;
     protected $crossMin;
     protected $crossMax;
+    protected $searchClosures;
 
     protected function parseSearchFields()
     {
