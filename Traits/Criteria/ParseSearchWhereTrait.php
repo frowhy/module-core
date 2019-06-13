@@ -64,7 +64,6 @@ trait ParseSearchWhereTrait
     protected function parseSearchAndRelationClosure($value, $relation, $field, $condition)
     {
         $this->model = $this->model->whereHas($relation, function (Builder $query) use ($condition, $field, $value) {
-
             if (is_array($this->searchClosures) && Arr::has($this->searchClosures, $condition)) {
                 $this->searchClosures[$condition]($query, $condition, $field, $value);
             } else {
@@ -76,7 +75,6 @@ trait ParseSearchWhereTrait
     protected function parseSearchAndClosure($value, $field, $condition)
     {
         $this->model = $this->model->where(function (Builder $query) use ($condition, $field, $value) {
-
             if (is_array($this->searchClosures) && Arr::has($this->searchClosures, $condition)) {
                 $this->searchClosures[$condition]($query, $condition, $field, $value);
             } else {
@@ -88,12 +86,10 @@ trait ParseSearchWhereTrait
     protected function parseSearchOrClosure($value, $field, $condition)
     {
         $this->model = $this->model->orWhere(function (Builder $query) use ($condition, $field, $value) {
-            $modelTableName = $this->model->getModel()->getTable();
-
             if (is_array($this->searchClosures) && Arr::has($this->searchClosures, $condition)) {
-                $this->searchClosures[$condition]($query, $condition, $field, $value, $modelTableName);
+                $this->searchClosures[$condition]($query, $condition, $field, $value);
             } else {
-                $query->where($modelTableName.'.'.$field, $condition, $value);
+                $query->where($field, $condition, $value);
             }
         });
     }
@@ -101,7 +97,6 @@ trait ParseSearchWhereTrait
     protected function parseSearchOrRelationClosure($value, $relation, $field, $condition)
     {
         $this->model = $this->model->orWhereHas($relation, function (Builder $query) use ($field, $condition, $value) {
-
             if (is_array($this->searchClosures) && Arr::has($this->searchClosures, $condition)) {
                 $this->searchClosures[$condition]($query, $condition, $field, $value);
             } else {

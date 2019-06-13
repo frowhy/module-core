@@ -88,53 +88,35 @@ class RequestCriteria implements CriteriaInterface
         $crossMin = config('repository.criteria.cross.min', 'min');
         $crossMax = config('repository.criteria.cross.min', 'max');
 
-        $this->setSearchClosure('cross', function (
-            Builder $query,
-            /** @scrutinizer ignore-unused */ $condition,
-            $field,
-            $value,
-            /** @scrutinizer ignore-unused */ $modelTableName = null
-        ) use ($crossMin, $crossMax) {
-            $query->where(function (Builder $query) use ($field, $value, $crossMin, $crossMax) {
-                $query->where("{$field}_{$crossMin}", '<=', (int) $value[0])
-                      ->where("{$field}_{$crossMax}", '>=', (int) $value[1]);
-            })->orWhere(function (Builder $query) use ($field, $value, $crossMin, $crossMax) {
-                $query->where("{$field}_{$crossMin}", '<=', (int) $value[0])
-                      ->where("{$field}_{$crossMax}", '>=', (int) $value[0]);
-            })->orWhere(function (Builder $query) use ($field, $value, $crossMin, $crossMax) {
-                $query->where("{$field}_{$crossMin}", '>=', (int) $value[0])
-                      ->where("{$field}_{$crossMax}", '<=', (int) $value[1]);
-            })->orWhere(function (Builder $query) use ($field, $value, $crossMin, $crossMax) {
-                $query->where("{$field}_{$crossMin}", '>=', (int) $value[0])
-                      ->where("{$field}_{$crossMax}", '>=', (int) $value[1])
-                      ->where("{$field}_{$crossMin}", '<=', (int) $value[1]);
+        $this->setSearchClosure('cross', function (...$attributes) use ($crossMin, $crossMax) {
+            $attributes[0]->where(function (Builder $query) use ($attributes, $crossMin, $crossMax) {
+                $query->where("{$attributes[2]}_{$crossMin}", '<=', (int) $attributes[3][0])
+                      ->where("{$attributes[2]}_{$crossMax}", '>=', (int) $attributes[3][1]);
+            })->orWhere(function (Builder $query) use ($attributes, $crossMin, $crossMax) {
+                $query->where("{$attributes[2]}_{$crossMin}", '<=', (int) $attributes[3][0])
+                      ->where("{$attributes[2]}_{$crossMax}", '>=', (int) $attributes[3][0]);
+            })->orWhere(function (Builder $query) use ($attributes, $crossMin, $crossMax) {
+                $query->where("{$attributes[2]}_{$crossMin}", '>=', (int) $attributes[3][0])
+                      ->where("{$attributes[2]}_{$crossMax}", '<=', (int) $attributes[3][1]);
+            })->orWhere(function (Builder $query) use ($attributes, $crossMin, $crossMax) {
+                $query->where("{$attributes[2]}_{$crossMin}", '>=', (int) $attributes[3][0])
+                      ->where("{$attributes[2]}_{$crossMax}", '>=', (int) $attributes[3][1])
+                      ->where("{$attributes[2]}_{$crossMin}", '<=', (int) $attributes[3][1]);
             });
         });
     }
 
     protected function setBetweenSearchClosure()
     {
-        $this->setSearchClosure('between', function (
-            Builder $query,
-            /** @scrutinizer ignore-unused */ $condition,
-            $field,
-            $value,
-            /** @scrutinizer ignore-unused */ $modelTableName = null
-        ) {
-            $query->whereBetween($field, $value);
+        $this->setSearchClosure('between', function (...$attributes) {
+            $attributes[0]->whereBetween($attributes[2], $attributes[3]);
         });
     }
 
     protected function setInSearchClosure()
     {
-        $this->setSearchClosure('in', function (
-            Builder $query,
-            /** @scrutinizer ignore-unused */ $condition,
-            $field,
-            $value,
-            /** @scrutinizer ignore-unused */ $modelTableName = null
-        ) {
-            $query->whereIn($field, $value);
+        $this->setSearchClosure('in', function (...$attributes) {
+            $attributes[0]->whereIn($attributes[2], $attributes[3]);
         });
     }
 }
