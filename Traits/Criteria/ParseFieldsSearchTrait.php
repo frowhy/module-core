@@ -26,8 +26,6 @@ trait ParseFieldsSearchTrait
     protected $searchJoin;
     protected $acceptedConditions;
     protected $originalFields;
-    protected $crossMin;
-    protected $crossMax;
     protected $searchClosures;
 
     use ParseSearchFieldsTrait;

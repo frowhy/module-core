@@ -24,8 +24,6 @@ trait ParseFilterTrait
     protected $searchJoin;
     protected $acceptedConditions;
     protected $originalFields;
-    protected $crossMin;
-    protected $crossMax;
     protected $searchClosures;
 
     protected function parseFilter()

@@ -41,20 +41,21 @@ class RequestCriteria implements CriteriaInterface
     protected $searchJoin;
     protected $acceptedConditions;
     protected $originalFields;
-    protected $crossMin;
-    protected $crossMax;
     protected $searchClosures;
 
     use ParseSearchableTrait;
     use ParseOrderByTrait;
     use ParseFilterTrait;
     use ParseWithTrait;
-    use ParseCrossTrait;
 
     public function __construct(Request $request)
     {
         $this->request = $request;
         $this->isFirstField = true;
+
+        $this->setCrossSearchClosure();
+        $this->setBetweenSearchClosure();
+        $this->setInSearchClosure();
     }
 
     /**
@@ -70,7 +71,6 @@ class RequestCriteria implements CriteriaInterface
         $this->model = $model;
         $this->repository = $repository;
 
-        $this->parseCross();
         $this->parseSearchable();
         $this->parseOrderBy();
         $this->parseFilter();
@@ -86,20 +86,29 @@ class RequestCriteria implements CriteriaInterface
 
     protected function setCrossSearchClosure()
     {
-        $this->setSearchClosure('cross', function (Builder $query, $condition, $field, $value, $modelTableName = null) {
-            $query->where(function (Builder $query) use ($field, $value) {
-                $query->where("{$field}_{$this->crossMin}", '<=', (int) $value[0])
-                      ->where("{$field}_{$this->crossMax}", '>=', (int) $value[1]);
-            })->orWhere(function (Builder $query) use ($field, $value) {
-                $query->where("{$field}_{$this->crossMin}", '<=', (int) $value[0])
-                      ->where("{$field}_{$this->crossMax}", '>=', (int) $value[0]);
-            })->orWhere(function (Builder $query) use ($field, $value) {
-                $query->where("{$field}_{$this->crossMin}", '>=', (int) $value[0])
-                      ->where("{$field}_{$this->crossMax}", '<=', (int) $value[1]);
-            })->orWhere(function (Builder $query) use ($field, $value) {
-                $query->where("{$field}_{$this->crossMin}", '>=', (int) $value[0])
-                      ->where("{$field}_{$this->crossMax}", '>=', (int) $value[1])
-                      ->where("{$field}_{$this->crossMin}", '<=', (int) $value[1]);
+        $crossMin = config('repository.criteria.cross.min', 'min');
+        $crossMax = config('repository.criteria.cross.min', 'max');
+
+        $this->setSearchClosure('cross', function (
+            Builder $query,
+            $condition,
+            $field,
+            $value,
+            $modelTableName = null
+        ) use ($crossMin, $crossMax) {
+            $query->where(function (Builder $query) use ($field, $value, $crossMin, $crossMax) {
+                $query->where("{$field}_{$crossMin}", '<=', (int) $value[0])
+                      ->where("{$field}_{$crossMax}", '>=', (int) $value[1]);
+            })->orWhere(function (Builder $query) use ($field, $value, $crossMin, $crossMax) {
+                $query->where("{$field}_{$crossMin}", '<=', (int) $value[0])
+                      ->where("{$field}_{$crossMax}", '>=', (int) $value[0]);
+            })->orWhere(function (Builder $query) use ($field, $value, $crossMin, $crossMax) {
+                $query->where("{$field}_{$crossMin}", '>=', (int) $value[0])
+                      ->where("{$field}_{$crossMax}", '<=', (int) $value[1]);
+            })->orWhere(function (Builder $query) use ($field, $value, $crossMin, $crossMax) {
+                $query->where("{$field}_{$crossMin}", '>=', (int) $value[0])
+                      ->where("{$field}_{$crossMax}", '>=', (int) $value[1])
+                      ->where("{$field}_{$crossMin}", '<=', (int) $value[1]);
             });
         });
     }
