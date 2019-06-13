@@ -11,7 +11,6 @@ namespace Modules\Core\Criteria;
 use Closure;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Modules\Core\Traits\Criteria\ParseCrossTrait;
 use Modules\Core\Traits\Criteria\ParseFilterTrait;
 use Modules\Core\Traits\Criteria\ParseOrderByTrait;
 use Modules\Core\Traits\Criteria\ParseSearchableTrait;
@@ -91,10 +90,10 @@ class RequestCriteria implements CriteriaInterface
 
         $this->setSearchClosure('cross', function (
             Builder $query,
-            $condition,
+            /** @scrutinizer ignore-unused */ $condition,
             $field,
             $value,
-            $modelTableName = null
+            /** @scrutinizer ignore-unused */ $modelTableName = null
         ) use ($crossMin, $crossMax) {
             $query->where(function (Builder $query) use ($field, $value, $crossMin, $crossMax) {
                 $query->where("{$field}_{$crossMin}", '<=', (int) $value[0])
@@ -117,10 +116,10 @@ class RequestCriteria implements CriteriaInterface
     {
         $this->setSearchClosure('between', function (
             Builder $query,
-            $condition,
+            /** @scrutinizer ignore-unused */ $condition,
             $field,
             $value,
-            $modelTableName = null
+            /** @scrutinizer ignore-unused */ $modelTableName = null
         ) {
             $query->whereBetween($field, $value);
         });
@@ -128,7 +127,13 @@ class RequestCriteria implements CriteriaInterface
 
     protected function setInSearchClosure()
     {
-        $this->setSearchClosure('in', function (Builder $query, $condition, $field, $value, $modelTableName = null) {
+        $this->setSearchClosure('in', function (
+            Builder $query,
+            /** @scrutinizer ignore-unused */ $condition,
+            $field,
+            $value,
+            /** @scrutinizer ignore-unused */ $modelTableName = null
+        ) {
             $query->whereIn($field, $value);
         });
     }
