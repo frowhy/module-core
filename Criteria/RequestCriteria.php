@@ -89,7 +89,7 @@ class RequestCriteria implements CriteriaInterface
         $crossMax = config('repository.criteria.cross.min', 'max');
 
         $this->setSearchClosure('cross', function (...$attributes) use ($crossMin, $crossMax) {
-            $attributes[0]->where(function (Builder $query) use ($attributes, $crossMin, $crossMax) {
+            return $attributes[0]->where(function (Builder $query) use ($attributes, $crossMin, $crossMax) {
                 $query->where("{$attributes[2]}_{$crossMin}", '<=', (int) $attributes[3][0])
                       ->where("{$attributes[2]}_{$crossMax}", '>=', (int) $attributes[3][1]);
             })->orWhere(function (Builder $query) use ($attributes, $crossMin, $crossMax) {
@@ -109,14 +109,14 @@ class RequestCriteria implements CriteriaInterface
     protected function setBetweenSearchClosure()
     {
         $this->setSearchClosure('between', function (...$attributes) {
-            $attributes[0]->whereBetween($attributes[2], $attributes[3]);
+            return $attributes[0]->whereBetween($attributes[2], $attributes[3]);
         });
     }
 
     protected function setInSearchClosure()
     {
         $this->setSearchClosure('in', function (...$attributes) {
-            $attributes[0]->whereIn($attributes[2], $attributes[3]);
+            return $attributes[0]->whereIn($attributes[2], $attributes[3]);
         });
     }
 }
