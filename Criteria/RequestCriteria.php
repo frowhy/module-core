@@ -90,18 +90,20 @@ class RequestCriteria implements CriteriaInterface
 
         $this->setSearchClosure('cross', function (...$attributes) use ($crossMin, $crossMax) {
             return $attributes[0]->where(function (Builder $query) use ($attributes, $crossMin, $crossMax) {
-                $query->where("{$attributes[2]}_{$crossMin}", '<=', (int) $attributes[3][0])
-                      ->where("{$attributes[2]}_{$crossMax}", '>=', (int) $attributes[3][1]);
-            })->orWhere(function (Builder $query) use ($attributes, $crossMin, $crossMax) {
-                $query->where("{$attributes[2]}_{$crossMin}", '<=', (int) $attributes[3][0])
-                      ->where("{$attributes[2]}_{$crossMax}", '>=', (int) $attributes[3][0]);
-            })->orWhere(function (Builder $query) use ($attributes, $crossMin, $crossMax) {
-                $query->where("{$attributes[2]}_{$crossMin}", '>=', (int) $attributes[3][0])
-                      ->where("{$attributes[2]}_{$crossMax}", '<=', (int) $attributes[3][1]);
-            })->orWhere(function (Builder $query) use ($attributes, $crossMin, $crossMax) {
-                $query->where("{$attributes[2]}_{$crossMin}", '>=', (int) $attributes[3][0])
-                      ->where("{$attributes[2]}_{$crossMax}", '>=', (int) $attributes[3][1])
-                      ->where("{$attributes[2]}_{$crossMin}", '<=', (int) $attributes[3][1]);
+                $query->where(function (Builder $query) use ($attributes, $crossMin, $crossMax) {
+                    $query->where("{$attributes[2]}_{$crossMin}", '<=', (int) $attributes[3][0])
+                        ->where("{$attributes[2]}_{$crossMax}", '>=', (int) $attributes[3][1]);
+                })->orWhere(function (Builder $query) use ($attributes, $crossMin, $crossMax) {
+                    $query->where("{$attributes[2]}_{$crossMin}", '<=', (int) $attributes[3][0])
+                        ->where("{$attributes[2]}_{$crossMax}", '>=', (int) $attributes[3][0]);
+                })->orWhere(function (Builder $query) use ($attributes, $crossMin, $crossMax) {
+                    $query->where("{$attributes[2]}_{$crossMin}", '>=', (int) $attributes[3][0])
+                        ->where("{$attributes[2]}_{$crossMax}", '<=', (int) $attributes[3][1]);
+                })->orWhere(function (Builder $query) use ($attributes, $crossMin, $crossMax) {
+                    $query->where("{$attributes[2]}_{$crossMin}", '>=', (int) $attributes[3][0])
+                        ->where("{$attributes[2]}_{$crossMax}", '>=', (int) $attributes[3][1])
+                        ->where("{$attributes[2]}_{$crossMin}", '<=', (int) $attributes[3][1]);
+                });
             });
         });
     }
