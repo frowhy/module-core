@@ -44,7 +44,21 @@ trait ResponseHandleTrait
             Arr::set($response, 'data', $_data);
         }
 
-        return self::call($response);
+        return self::call($response, $data);
+    }
+
+    /**
+     * Response Continue.
+     *
+     * @param             $data
+     * @param bool        $overwrite
+     * @param string|null $message
+     *
+     * @return \Modules\Core\Supports\Response
+     */
+    public static function handleContinue($data = null, bool $overwrite = false, string $message = null): Response
+    {
+        return self::handle(StatusCodeEnum::HTTP_CONTINUE, $data, $overwrite, $message);
     }
 
     /**

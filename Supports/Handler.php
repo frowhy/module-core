@@ -32,32 +32,37 @@ class Handler extends ExceptionHandler
     {
         if ($request->is('api/*') || $request->wantsJson()) {
             if ('web' !== config('core.api.error_format')) {
-                $response = [];
-                $exception = $this->parseUnauthorizedHttpException($exception);
-
-                if ($exception instanceof ModelNotFoundException) {
-                    $response = $this->parseModelNotFoundException($response, $exception);
-                } elseif ($exception instanceof JWTException) {
-                    $response = $this->parseJWTException($response, $exception);
-                } else {
-                    $response = $this->parseException($response, $exception, get_class($exception));
-                }
-
-                $response = $this->parseDebug($response, $exception);
-
-                return $this->response(collect($response)->toArray());
+                return $this::renderException($exception)->render();
             }
         }
 
         return parent::render($request, $exception);
     }
 
-    protected function response(array $response)
+    public static function renderException(Exception $exception)
     {
-        return (new Response($response))->render();
+        $response = [];
+        $exception = self::parseUnauthorizedHttpException($exception);
+
+        if ($exception instanceof ModelNotFoundException) {
+            $response = self::parseModelNotFoundException($response, $exception);
+        } elseif ($exception instanceof JWTException) {
+            $response = self::parseJWTException($response, $exception);
+        } else {
+            $response = self::parseException($response, $exception, get_class($exception));
+        }
+
+        $response = self::parseDebug($response, $exception);
+
+        return self::response(collect($response)->toArray());
     }
 
-    protected function parseDebug(array $response, Exception $exception)
+    protected static function response(array $response)
+    {
+        return new Response($response);
+    }
+
+    protected static function parseDebug(array $response, Exception $exception)
     {
         if (true === config('app.debug')) {
             $response['meta'][self::DEBUG]['file'] = $exception->getFile();
@@ -68,7 +73,7 @@ class Handler extends ExceptionHandler
         return $response;
     }
 
-    protected function parseUnauthorizedHttpException(Exception $exception)
+    protected static function parseUnauthorizedHttpException(Exception $exception)
     {
         if ($exception instanceof UnauthorizedHttpException) {
             if (method_exists($exception, 'getPrevious') && $exception->getPrevious() instanceof JWTException) {
@@ -79,7 +84,7 @@ class Handler extends ExceptionHandler
         return $exception;
     }
 
-    protected function parseModelNotFoundException(array $response, Exception $exception): array
+    protected static function parseModelNotFoundException(array $response, Exception $exception): array
     {
         $response['meta'][self::STATUS_CODE] = StatusCodeEnum::HTTP_NOT_FOUND;
         $response['meta'][self::MESSAGE] = $exception->getMessage();
@@ -87,7 +92,7 @@ class Handler extends ExceptionHandler
         return $response;
     }
 
-    protected function parseException(array $response, Exception $exception, string $exceptionClass): array
+    protected static function parseException(array $response, Exception $exception, string $exceptionClass): array
     {
         if (method_exists($exception, 'getStatusCode')) {
             $response['meta'][self::STATUS_CODE] = $exception->getStatusCode();

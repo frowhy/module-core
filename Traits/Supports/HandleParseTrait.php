@@ -15,7 +15,7 @@ use Tymon\JWTAuth\Exceptions\UserNotDefinedException;
 
 trait HandleParseTrait
 {
-    protected function parseTokenInvalidException(array $response, Exception $exception)
+    protected static function parseTokenInvalidException(array $response, Exception $exception)
     {
         if ($exception instanceof TokenInvalidException) {
             $response['meta'][Handler::ERROR_CODE] = JWTErrorCode::TOKEN_INVALID;
@@ -24,7 +24,7 @@ trait HandleParseTrait
         return $response;
     }
 
-    protected function parseInvalidClaimException(array $response, Exception $exception)
+    protected static function parseInvalidClaimException(array $response, Exception $exception)
     {
         if ($exception instanceof InvalidClaimException) {
             $response['meta'][Handler::ERROR_CODE] = JWTErrorCode::INVALID_CLAIM;
@@ -33,7 +33,7 @@ trait HandleParseTrait
         return $response;
     }
 
-    protected function parsePayloadException(array $response, Exception $exception)
+    protected static function parsePayloadException(array $response, Exception $exception)
     {
         if ($exception instanceof PayloadException) {
             $response['meta'][Handler::ERROR_CODE] = JWTErrorCode::PAYLOAD;
@@ -42,7 +42,7 @@ trait HandleParseTrait
         return $response;
     }
 
-    protected function parseTokenBlacklistedException(array $response, Exception $exception)
+    protected static function parseTokenBlacklistedException(array $response, Exception $exception)
     {
         if ($exception instanceof TokenBlacklistedException) {
             $response['meta'][Handler::ERROR_CODE] = JWTErrorCode::TOKEN_BLACKLISTED;
@@ -51,7 +51,7 @@ trait HandleParseTrait
         return $response;
     }
 
-    protected function parseTokenExpiredException(array $response, Exception $exception)
+    protected static function parseTokenExpiredException(array $response, Exception $exception)
     {
         if ($exception instanceof TokenExpiredException) {
             if ('Token has expired and can no longer be refreshed' === $exception->getMessage()) {
@@ -64,7 +64,7 @@ trait HandleParseTrait
         return $response;
     }
 
-    protected function parseUserNotDefinedException(array $response, Exception $exception)
+    protected static function parseUserNotDefinedException(array $response, Exception $exception)
     {
         if ($exception instanceof UserNotDefinedException) {
             $response['meta'][Handler::ERROR_CODE] = JWTErrorCode::USER_NOT_DEFINED;
@@ -73,18 +73,18 @@ trait HandleParseTrait
         return $response;
     }
 
-    protected function parseJWTException(array $response, Exception $exception): array
+    protected static function parseJWTException(array $response, Exception $exception): array
     {
         $response['meta'][Handler::ERROR_CODE] = JWTErrorCode::DEFAULT;
         $response['meta'][Handler::STATUS_CODE] = StatusCodeEnum::HTTP_UNAUTHORIZED;
         $response['meta'][Handler::MESSAGE] = $exception->getMessage();
 
-        $response = $this->parseTokenInvalidException($response, $exception);
-        $response = $this->parseInvalidClaimException($response, $exception);
-        $response = $this->parsePayloadException($response, $exception);
-        $response = $this->parseTokenBlacklistedException($response, $exception);
-        $response = $this->parseTokenExpiredException($response, $exception);
-        $response = $this->parseUserNotDefinedException($response, $exception);
+        $response = self::parseTokenInvalidException($response, $exception);
+        $response = self::parseInvalidClaimException($response, $exception);
+        $response = self::parsePayloadException($response, $exception);
+        $response = self::parseTokenBlacklistedException($response, $exception);
+        $response = self::parseTokenExpiredException($response, $exception);
+        $response = self::parseUserNotDefinedException($response, $exception);
 
         return $response;
     }

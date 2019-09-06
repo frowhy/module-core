@@ -22,13 +22,15 @@ use SoapBox\Formatter\Formatter;
 
 class Response implements Responsable, Arrayable, Renderable, Boolable
 {
+    public $original;
     protected $response;
     protected $statusCode;
 
     use ResponseHandleTrait;
 
-    public function __construct(array $response)
+    public function __construct(array $response, $original = null)
     {
+        $this->original = $original;
         $this->response = $response;
         $this->statusCode = $response['meta']['status_code'] ?? StatusCodeEnum::HTTP_OK;
 
@@ -130,15 +132,26 @@ class Response implements Responsable, Arrayable, Renderable, Boolable
     }
 
     /**
+     * Get the instance to continue.
+     *
+     * @return bool
+     */
+    public function isContinue(): bool
+    {
+        return Str::startsWith(Arr::get($this->response, 'meta.status_code'), [1, 2]);
+    }
+
+    /**
      * Return an response.
      *
      * @param array $response
+     * @param       $original
      *
      * @return Response
      */
-    private static function call(array $response): self
+    private static function call(array $response, $original): self
     {
-        return new self($response);
+        return new self($response, $original);
     }
 
     /**

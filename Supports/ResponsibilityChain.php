@@ -9,24 +9,32 @@
 namespace Modules\Core\Supports;
 
 use Closure;
+use Exception;
 
 class ResponsibilityChain
 {
-    private $isError = false;
+    private $isException = false;
+    private $isContinue = false;
     private $result = null;
     private $lastResult = null;
 
-    public function append(Closure $result, bool $isLastResult = false, bool $isNext = false): self
+    public function append(Closure $result, bool $isLastResult = false, bool $isContinue = false): self
     {
-        if (!$this->isError || $isNext) {
-            $this->result = $result(get_data($this->result), is_true($this->result));
+        if (!$this->isException || $this->isContinue) {
+            $this->isContinue = $isContinue;
 
-            if (is_true($isLastResult)) {
+            try {
+                $this->result = $result($this->result);
+            } catch (Exception $exception) {
+                $this->result = Handler::renderException($exception);
+            }
+
+            if ($isLastResult) {
                 $this->lastResult = $this->result;
             }
 
-            if (!is_true($this->result)) {
-                $this->isError = true;
+            if (!$this->result->isContinue()) {
+                $this->isException = true;
             }
         }
 
