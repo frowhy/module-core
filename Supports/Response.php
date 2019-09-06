@@ -145,7 +145,6 @@ class Response implements Responsable, Arrayable, Renderable, Boolable
      * Return an response.
      *
      * @param array $response
-     *
      * @param       $original
      *
      * @return Response

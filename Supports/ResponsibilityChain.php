@@ -21,7 +21,6 @@ class ResponsibilityChain
     public function append(Closure $result, bool $isLastResult = false, bool $isContinue = false): self
     {
         if (!$this->isException || $this->isContinue) {
-
             $this->isContinue = $isContinue;
 
             try {
